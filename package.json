@@ -1,0 +1,17 @@
+{
+	"name": "noso-admin",
+	"version": "0.0.2",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"lint": "eslint . --fix --ignore-path .gitignore"
+	},
+	"dependencies": {
+		"core-js": "^3.37.1",
+		"noso-utils": "^1.0.0",
+		"noso-ui": "^1.0.0"
+	},
+	"devDependencies": {}
+}
