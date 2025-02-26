@@ -9,8 +9,8 @@
         <v-row class="">
           <v-col cols="12" class="d-flex align-center">
             <v-text-field outlined class="mr-2" dense v-model="query.name" label="名称" hide-details />
-            <v-select outlined class="mr-2" dense label="状态" v-model="query.status" :items="refs['statusLabels']"
-              hide-details clearable></v-select>
+            <v-select outlined class="mr-2" dense label="状态" v-model="query.status" :items="refs['STATUSLABEL']"
+              item-title="text" item-value="value" hide-details clearable></v-select>
             <v-btn color="primary" class="mr-2" @click="search"><v-icon>$search</v-icon>查询</v-btn>
             <v-icon class="mr-2" v-if="queryPairs.length" @click="reset">$close</v-icon>
           </v-col>
@@ -40,11 +40,11 @@
       <template v-slot:item.name="{ item }"> {{ item.code }} {{ item.name }}
       </template>
       <template v-slot:item.action="{ item }">
-        <slot name="actions" v-bind:item="item"></slot>
+        <slot name="actions" v-bind="{ item }"></slot>
       </template>
 
       <template v-slot:footer>
-        <slot name="batchActions" v-bind:selected="selected"></slot>
+        <slot name="batchActions" v-bind="{ selected }"></slot>
       </template>
     </v-data-table>
 
@@ -94,6 +94,9 @@ export default {
     if (this.initQuery) {
       this.query = clone(this.initQuery)
     }
+    this.$api.common.getMeta('roast_Bean', 'TYPELABEL,PROCESSLABEL,STATUSLABEL', res => {
+      this.refs = res;
+    })
     this.load()
   },
   computed: {

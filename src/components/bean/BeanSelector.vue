@@ -71,7 +71,8 @@ export default {
     select(item) {
       let idx = this.selected.findIndex((e) => e.id === item.id)
       if (idx >= 0) {
-        alert(`${item.nickname}(${item.id})已选择`)
+        alert(`${item.name}(${item.id})已选择`)
+        return
       } else {
         if (this.multiple === false) {
           this.selected = []
@@ -94,6 +95,7 @@ export default {
       }
     },
     confirm() {
+      console.log('selected', this.selected)
       this.$emit('selected', this.selectedIds, this.selected)
       this.show = false
     },

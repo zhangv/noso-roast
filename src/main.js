@@ -1,5 +1,4 @@
 // Plugins
-import 'iconify-icon'
 import vuetify from './plugins/vuetify'
 import { createPinia } from 'pinia'
 const pinia = createPinia()
@@ -27,10 +26,15 @@ app.config.globalProperties.$soul = soul
 
 import registerStores from '@/stores'
 const stores = registerStores()
-console.log('registering stores', stores)
 app.config.globalProperties.$stores = stores
 
-app.config.globalProperties.$t = i18n.global.t
+import { createI18n, useI18n } from 'vue-i18n'
+
+// app.config.globalProperties.$t = i18n.global.t
+app.config.globalProperties.$t = function (key, ...args) {
+	const { t } = useI18n() // 让 Vue 访问 useI18n()
+	return t(key, ...args)
+}
 
 import { useRootStore } from './stores/root'
 import { format } from 'date-fns'
@@ -63,4 +67,9 @@ app.config.globalProperties.$formatDate = function (long) {
 	const date = new Date(long * 1000)
 	return format(date, 'yyyy-MM-dd')
 }
+
+import 'iconify-icon'
+import { Icon } from '@iconify/vue'
+app.component('Icon', Icon) //全局注册
+
 app.mount('#app')

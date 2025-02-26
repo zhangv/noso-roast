@@ -4,9 +4,9 @@
     <v-text-field label="名称" v-model="form.name" style="max-width:20rem" :error-messages="errors.name"></v-text-field>
     <v-text-field label="编码" v-model="form.code" style="max-width:20rem" :error-messages="errors.code"></v-text-field>
   </div>
-  <div class="d-flex flex-row align-center">
+  <div class="d-flex flex-row align-center justify-start">
     类型：
-    <v-radio-group v-model="form.type" row>
+    <v-radio-group v-model="form.type" inline style="max-width:10rem">
       <v-radio v-for="item in types" :key="item.value" :label="item.text" :error-messages="errors.type"
         :value="item.value"></v-radio>
     </v-radio-group>
@@ -16,7 +16,7 @@
   </div>
   <div class="d-flex flex-row align-center">
     处理方式：
-    <v-radio-group v-model="form.process" row>
+    <v-radio-group v-model="form.process" inline dense hide-details="auto">
       <v-radio v-for="item in refs['PROCESSLABEL']" :key="item.value" :label="item.text"
         :error-messages="errors.process" :value="item.value"></v-radio>
     </v-radio-group>
@@ -29,8 +29,14 @@
     <v-text-field label="庄园/处理站" v-model="form.processor" :error-messages="errors.processor"></v-text-field>
   </div>
   <div class="d-flex flex-row align-center">
-
     <v-text-field label="供应商/贸易商" v-model="form.provider" :error-messages="errors.provider"></v-text-field>
+  </div>
+  <div class="d-flex flex-row align-center">
+    状态：
+    <v-radio-group v-model="form.status" inline dense hide-details="auto">
+      <v-radio v-for="item in refs['STATUSLABEL']" :key="item.value" :label="item.text" :error-messages="errors.process"
+        :value="item.value"></v-radio>
+    </v-radio-group>
   </div>
   <!-- <v-card class=mb-2>
 			<v-card-title>生豆状态（入库时）</v-card-title>
@@ -100,7 +106,7 @@ export default {
   mounted() {
     console.log(this.value)
     this.form = clone(this.value);
-    this.$api.common.getMeta('roast_Bean', 'TYPELABEL,PROCESSLABEL', res => {
+    this.$api.common.getMeta('roast_Bean', 'TYPELABEL,PROCESSLABEL,STATUSLABEL', res => {
       this.refs = res;
     })
   },

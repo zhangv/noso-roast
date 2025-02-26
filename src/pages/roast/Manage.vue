@@ -12,9 +12,11 @@
         <v-icon class="mr-2" @click="del(item)" color="error">$delete</v-icon>
 
         <template v-if="item.status === 'start'">
-
           <v-btn classs="mr-2" @click="complete(item)">完成</v-btn>
           <v-btn classs="mr-2" @click="cancel(item)">取消</v-btn>
+        </template>
+        <template v-if="item.status === 'complete'">
+          <v-btn classs="mr-2" @click="cupping(item)">杯测WIP</v-btn>
         </template>
       </template>
     </RoastOrderList>
@@ -31,7 +33,7 @@
     </v-dialog>
     <v-dialog v-model="profileDlg">
       <v-card>
-        <profile-form v-model:value="profileForm" :errors="profileErrors">
+        <profile-form v-model:roastId="profileId" :errors="profileErrors">
           <template #actions="{ object }">
             <v-card-actions>
               <v-btn color="primary" large @click="confirmProfile(object)">确认保存</v-btn>
@@ -57,7 +59,6 @@
 
 <script>
 import qs from 'qs'
-import { clone } from 'lodash-es'
 import BeanProfileForm from '@/components/bean/BeanForm.vue'
 import BeanSelector from '@/components/bean/BeanSelector.vue'
 
@@ -65,8 +66,6 @@ import RoastOrderList from '@/components/roast/RoastOrderList.vue'
 import StartForm from '@/components/roast/StartForm.vue'
 import CompleteForm from '@/components/roast/CompleteForm.vue'
 import ProfileForm from '@/components/roast/ProfileForm.vue'
-import { mapState, mapActions } from 'pinia'
-import { useRootStore } from '@/stores/root'
 export default {
   components: {
     BeanProfileForm, RoastOrderList, BeanSelector, StartForm
@@ -89,6 +88,7 @@ export default {
       startErrors: {},
       profileDlg: false,
       profileForm: {},
+      profileId: null,
       profileErrors: {},
       completeDlg: false,
       completeForm: {},
@@ -97,8 +97,8 @@ export default {
         { title: '#', value: 'id' },
         { title: '名称', align: 'left', sortable: true, value: 'name' },
         { title: '生豆', value: 'bean_id' },
-        { title: '重量', value: 'inqty' },
-        // { title: '创建时间', value: 'createdtime' },
+        { title: '生重', value: 'inqty' },
+        { title: '熟重', value: 'outqty' },
         { title: '开始时间', value: 'starttime' },
         { title: '状态', value: 'status' },
         {
@@ -138,13 +138,14 @@ export default {
     },
     profile(item) {
       this.profileDlg = true
-      Object.assign(item, item.roastProfile)
-      this.profileForm = clone(item)
+      this.profileId = item.id
     },
     confirmProfile(form) {
+      console.log('form', form)
       this.$http.post(`/roast/updateProfile`, form).then(r => {
-        this.load()
         this.profileDlg = false
+        this.load()
+
       }).catch(e => {
         this.profileErrors = e.message
       })

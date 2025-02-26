@@ -26,35 +26,27 @@
           <v-btn @click="addBatch" v-if="selectedBatch.id && selectedBatchQty > 0">添加</v-btn>
         </template>
       </div>
-      <template v-show="form.bean_id">
-        <v-table v-if="form.batches && form.batches.length > 0">
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">名称</th>
-                <th class="text-left">批次</th>
-                <th class="text-left">数量</th>
-                <th class="text-left">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(batch, i) in form.batches" :key="i">
-                <td>{{ batch.id }}</td>
-                <td>{{ batch.date }} {{ batch.seq }}</td>
-                <td>{{ batch.qty }} 克</td>
-                <td>
-                  <v-btn @click="form.batches.splice(i, 1)" text color="error"><v-icon>$delete</v-icon></v-btn>
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-table>
-
-      </template>
-
-
+      <v-table v-if="form.batches && form.batches.length > 0" density="compact">
+        <thead>
+          <tr>
+            <th class="text-left">名称</th>
+            <th class="text-left">批次</th>
+            <th class="text-left">数量</th>
+            <th class="text-left">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(batch, i) in form.batches" :key="i">
+            <td>{{ batch.id }}</td>
+            <td>{{ batch.date }} {{ batch.seq }}</td>
+            <td>{{ batch.qty }} 克</td>
+            <td>
+              <v-btn @click="form.batches.splice(i, 1)" text color="error"><v-icon>$delete</v-icon></v-btn>
+            </td>
+          </tr>
+        </tbody>
+      </v-table>
     </v-card-text>
-
     <slot name="actions" :object="form"></slot>
   </v-form>
 </template>
@@ -124,7 +116,6 @@ export default {
       this.form.bean_id = beanids[0]
       this.selectedBean = beans[0]
       this.form.batches = [] //选择其他豆时需要清空批次信息
-      this.selectedBatch = {}
       this.selectableBatches = []
       let params = {
         bean_id: this.form.bean_id,
@@ -145,15 +136,15 @@ export default {
       console.log(ex)
       if (ex) {
         ex.qty += parseInt(this.selectedBatchQty)
-      } else
+      } else {
         this.form.batches.push({
           id: this.selectedBatch.id,
           qty: parseInt(this.selectedBatchQty),
           date: this.selectedBatch.date,	//批次日期
           seq: this.selectedBatch.seq		//批次序号
         })
+      }
       this.form.inQty = this.totalQty
-      this.selectedBatch = {}
       this.selectedBatchQty = null
     }
   }

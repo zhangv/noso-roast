@@ -24,6 +24,7 @@ let locale = loadLocale()
 const messages = loadLocaleMessages()
 
 const i18n = createI18n({
+	legacy: false,
 	locale: locale ? locale : 'zhHans',
 	fallbackLocale: 'zhHans',
 	messages,

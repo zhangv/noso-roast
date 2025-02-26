@@ -330,6 +330,12 @@ const vuetify = createVuetify({
 		},
 		VDataTable: {
 			hover: true
+		},
+		VRadioGroup: {
+			hideDetails: 'auto'
+		},
+		VInput: {
+			hideDetails: 'auto'
 		}
 	},
 	theme: {

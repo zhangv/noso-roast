@@ -25,12 +25,9 @@ const pathFromFilePath = (filePath) => {
 // Generate routes from imported components
 const routes = Object.keys(pageComponents).map((filePath) => {
 	const path = pathFromFilePath(filePath)
-	if (!path) return
-	const lowerCasePath = path.toLowerCase()
-	console.log(lowerCasePath)
 
 	return {
-		path: lowerCasePath,
+		path: path.toLowerCase(),
 		component: defaultLayoutComponent,
 		children: [
 			{

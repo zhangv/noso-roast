@@ -4,48 +4,44 @@
       {{ title }}
       <v-icon color="info" @click="load">$reload</v-icon>
     </v-card-title>
-    <v-card-text class="pt-0">
-      <v-form @submit.prevent="search" class="form-inline">
+    <v-card-text>
+      <v-form @submit.prevent="search" class="form-inline ">
         <v-row class="">
-          <v-col cols="12" sm="4">
-            <v-text-field outlined dense v-model="query.name" label="名称" hide-details />
-          </v-col>
-          <v-col cols="12" sm="2">
-            <v-select outlined dense label="状态" v-model="query.status" :items="refs['statusLabels']" hide-details
-              clearable></v-select>
-          </v-col>
-          <v-col cols="12" sm="3">
-            <v-btn color="primary" @click="search"><v-icon>$search</v-icon>查询</v-btn>
-            <v-btn text v-if="queryPairs.length > 0"><v-icon @click="reset">$close</v-icon></v-btn>
+          <v-col cols="12" class="d-flex align-center">
+            <v-text-field outlined dense v-model="query.name" label="名称" hide-details style="max-width:10rem"
+              class="mr-1" />
+            <v-select outlined dense label="状态" v-model="query.status" :items="refs['STATUSLABEL']" hide-details
+              item-title="text" item-value="value" style="max-width:10rem" class="mr-1" clearable></v-select>
+            <v-btn color="primary" @click="search" class="mr-1"><v-icon>$search</v-icon>查询</v-btn>
+            <v-icon v-if="queryPairs.length > 0" class="mr-1" @click="reset">$close</v-icon>
           </v-col>
         </v-row>
       </v-form>
-
-      <v-data-table :headers="headers" :items="objects" :options.sync="options" :server-items-length="parseInt(total)"
-        :loading="loading" :show-select="showSelect" :single-select="singleSelect" v-model="selected" :footer-props="{
-          showFirstLastPage: true,
-          showCurrentPage: true,
-          itemsPerPageOptions: [10, 20, 30]
-        }">
-        <template v-slot:top>
-          <slot name="batchActions" v-bind:selected="selected"></slot>
-        </template>
-        <template v-slot:item.status="{ item }">
-          {{ item.status }}
-        </template>
-        <template v-slot:item.name="{ item }"> {{ item.name }}
-        </template>
-        <template v-slot:item.bean_id="{ item }"> {{ item.bean.name }}
-        </template>
-        <template v-slot:item.action="{ item }">
-          <slot name="actions" v-bind:item="item"></slot>
-        </template>
-
-        <template v-slot:footer>
-          <slot name="batchActions" v-bind:selected="selected"></slot>
-        </template>
-      </v-data-table>
     </v-card-text>
+    <v-data-table :headers="headers" :items="objects" :options.sync="options" :server-items-length="parseInt(total)"
+      :loading="loading" :show-select="showSelect" :single-select="singleSelect" v-model="selected" :footer-props="{
+        showFirstLastPage: true,
+        showCurrentPage: true,
+        itemsPerPageOptions: [10, 20, 30]
+      }">
+      <template v-slot:top>
+        <slot name="batchActions" v-bind:selected="selected"></slot>
+      </template>
+      <template v-slot:item.status="{ item }">
+        {{ item.status }}
+      </template>
+      <template v-slot:item.name="{ item }"> {{ item.name }}
+      </template>
+      <template v-slot:item.bean_id="{ item }"> {{ item.bean.name }}
+      </template>
+      <template v-slot:item.action="{ item }">
+        <slot name="actions" v-bind:item="item"></slot>
+      </template>
+
+      <template v-slot:footer>
+        <slot name="batchActions" v-bind:selected="selected"></slot>
+      </template>
+    </v-data-table>
   </v-sheet>
 </template>
 
@@ -89,6 +85,9 @@ export default {
     if (this.initQuery) {
       this.query = clone(this.initQuery)
     }
+    this.$api.common.getMeta('roast_RoastOrder', 'STATUSLABEL', (res) => {
+      this.refs['STATUSLABEL'] = res
+    })
   },
   computed: {
     queryValues() {
