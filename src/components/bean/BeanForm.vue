@@ -28,8 +28,13 @@
 
     <v-text-field label="庄园/处理站" v-model="form.processor" :error-messages="errors.processor"></v-text-field>
   </div>
-  <div class="d-flex flex-row align-center">
-    <v-text-field label="供应商/贸易商" v-model="form.provider" :error-messages="errors.provider"></v-text-field>
+  <div class="d-flex flex-row align-center ">
+    <v-text-field label="供应商/贸易商" style="max-width:20rem" v-model="form.provider" class="mr-2"
+      :error-messages="errors.provider"></v-text-field>
+    <v-text-field label="采购价格" style="max-width:20rem" v-model="form.purchasePrice"
+      :error-messages="errors.purchasePrice">
+      <template #append>元/公斤</template>
+    </v-text-field>
   </div>
   <div class="d-flex flex-row align-center">
     状态：

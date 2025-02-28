@@ -11,13 +11,19 @@
         </template>
         <bean-selector @selected="onBeanSelected">选择生豆</bean-selector>
         <v-alert type="error" v-if="!form.bean_id && errors.bean_id">{{ errors.bean_id }}</v-alert>
-        <v-text-field type="number" v-model="form.totalQty" :error-messages="errors.totalQty" id="beanTemp"
-          style="max-width: 10rem">
+        <v-text-field type="number" v-model="form.totalQty" :error-messages="errors.totalQty" style="max-width: 10rem">
         </v-text-field>
         克
       </div>
       <div class="d-flex flex-row align-center">
-        <v-radio-group label="类型" v-model="form.type" inline>
+        <v-text-field type="number" label="总价" v-model="form.totalPrice" :error-messages="errors.totalPrice"
+          style="max-width: 10rem">
+        </v-text-field>
+        元
+      </div>
+      <div class="d-flex flex-row align-center">
+        类型
+        <v-radio-group v-model="form.type" inline>
           <v-radio v-for="item in refs['TYPELABEL']" :key="item.value" :label="item.text" :error-messages="errors.type"
             :value="item.value"></v-radio>
         </v-radio-group>
