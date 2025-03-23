@@ -21,20 +21,17 @@ app.config.globalProperties.$api = api
 import http from './api/http'
 app.config.globalProperties.$http = http
 
+import api2 from './api/api2'
+app.config.globalProperties.$api2 = api2
+import http2 from './api/http2'
+app.config.globalProperties.$http2 = http2
+
 import soul from './soul'
 app.config.globalProperties.$soul = soul
 
 import registerStores from '@/stores'
 const stores = registerStores()
 app.config.globalProperties.$stores = stores
-
-import { createI18n, useI18n } from 'vue-i18n'
-
-// app.config.globalProperties.$t = i18n.global.t
-app.config.globalProperties.$t = function (key, ...args) {
-	const { t } = useI18n() // 让 Vue 访问 useI18n()
-	return t(key, ...args)
-}
 
 import { useRootStore } from './stores/root'
 import { format } from 'date-fns'

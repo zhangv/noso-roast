@@ -297,8 +297,8 @@ const customIcons = {
 	notice: mdiVolumeHigh
 }
 const icons = {
-	defaultSet: 'mdiSvg', // 'mdi' || 'mdiSvg'
-	// FIXME: 使用mdi可以正常显示mdi-开头的图标，mdiSvg可以正常显示自定义图标
+	defaultSet: 'mdi', // 'mdi' || 'mdiSvg'
+	// FIXME: default使用mdi可以正常显示mdi-开头的图标，mdiSvg可以正常显示自定义图标
 	sets: {
 		mdi,
 		mdiSvg
@@ -321,6 +321,7 @@ const vuetify = createVuetify({
 	// 	values: customIcons
 	// },
 	defaults: {
+		//覆盖组件的属性默认值
 		global: {
 			ripple: true,
 			density: 'comfortable'
@@ -330,6 +331,11 @@ const vuetify = createVuetify({
 		},
 		VDataTable: {
 			hover: true
+			// elevation: 0
+		},
+		VDataTableServer: {
+			hover: true
+			// elevation: 0
 		},
 		VRadioGroup: {
 			hideDetails: 'auto'

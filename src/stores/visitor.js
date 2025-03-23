@@ -90,7 +90,6 @@ export const useVisitorStore = defineStore('visitor', {
 			this.eruda = saveCache('eruda', to)
 		},
 		onLoggedIn(res) {
-			console.log('onloggedin', res)
 			this.setUserInfo(res.userInfo)
 			this.setToken(res.token)
 			this.setLoginStatus(1)

@@ -1,62 +1,61 @@
 <template>
-  <div>
-    <v-card-title class="d-flex align-center">
-      生豆管理
-      <v-icon color="primary" dark @click="add">$plus</v-icon>
-      <v-icon color="info" @click="load">$reload</v-icon>
-      <v-spacer></v-spacer>
-    </v-card-title>
-    <BeanList ref="thelist" show-select :single-select="false" :init-query.sync="query" :headers="headers">
-      <template v-slot:batchActions="{ selected }"> </template>
-      <template v-slot:actions="{ item }">
-        <v-icon class="mr-2 mb-1" @click="edit(item)">$edit</v-icon>
-        <v-icon class="mr-2 mb-1" @click="del(item)" color="error">$delete</v-icon>
-        <v-btn class="mr-2 mb-1" small @click="stock(item)">批次查询</v-btn>
-        <v-btn class="mr-2 mb-1" small @click="inStock(item)">入库</v-btn>
-        <!-- <v-btn class="mr-2 mb-1" small @click="outStock(item)">出库</v-btn> -->
-      </template>
-    </BeanList>
-    <v-dialog v-model="formDlg">
-      <v-card>
-        <v-card-title>编辑生豆信息</v-card-title>
-        <v-card-text>
-          <bean-form v-model:value="form" :errors="errors">
-            <template #actions="{ object }">
-              <v-btn color="primary" large @click="save(object)">保存</v-btn>
-              <v-btn color="" large @click="formDlg = false">关闭</v-btn>
-            </template>
-          </bean-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-    <v-dialog v-model="batchDlg">
-      <v-card>
-        <v-card-title>批次编辑</v-card-title>
-        <v-card-text>
-          <bean-batch-form v-model:value="batchForm" :errors="batchErrors">
-            <template #actions="{ object }">
-              <v-btn color="primary" large @click="saveBatch(object)">保存</v-btn>
-            </template>
-          </bean-batch-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-  </div>
+
+  <v-card-title class="d-flex align-center">
+    生豆管理
+    <v-icon color="primary" dark @click="add">$plus</v-icon>
+    <v-icon color="info" @click="load">$reload</v-icon>
+    <v-spacer></v-spacer>
+  </v-card-title>
+  <BeanList ref="thelist" show-select :single-select="false" :init-query.sync="query" :headers="headers">
+    <template v-slot:batchActions="{ selected }"> </template>
+    <template v-slot:actions="{ item }">
+      <v-icon class="mr-2 mb-1" @click="edit(item)">$edit</v-icon>
+      <v-icon class="mr-2 mb-1" @click="del(item)" color="error">$delete</v-icon>
+      <v-btn class="mr-2 mb-1" small @click="stock(item)">批次查询</v-btn>
+      <v-btn class="mr-2 mb-1" small @click="inStock(item)">入库</v-btn>
+      <v-btn class="mr-2 mb-1" small @click="price(item)">价格</v-btn>
+      <!-- <v-btn class="mr-2 mb-1" small @click="outStock(item)">出库</v-btn> -->
+    </template>
+  </BeanList>
+  <v-dialog v-model="formDlg">
+    <v-card>
+      <v-card-title>编辑生豆信息</v-card-title>
+      <v-card-text>
+        <bean-form v-model:value="form" :errors="errors">
+          <template #actions="{ object }">
+            <v-btn color="primary" large @click="save(object)">保存</v-btn>
+            <v-btn color="" large @click="formDlg = false">关闭</v-btn>
+          </template>
+        </bean-form>
+      </v-card-text>
+
+    </v-card>
+  </v-dialog>
+  <v-dialog v-model="batchDlg">
+    <v-card>
+      <v-card-title>批次编辑</v-card-title>
+      <v-card-text>
+        <bean-batch-form v-model:value="batchForm" :errors="batchErrors">
+          <template #actions="{ object }">
+            <v-btn color="primary" large @click="saveBatch(object)">保存</v-btn>
+          </template>
+        </bean-batch-form>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
+
 </template>
 
 <script>
 import qs from 'qs'
-
-import BeanForm from '@/components/bean/BeanForm.vue'
-import BeanList from '@/components/bean/BeanList.vue';
-import BeanBatchForm from '@/components/bean/BeanBatchForm.vue';
+import { BeanForm, BeanList, BeanBatchForm } from '@ui'
 import { clone } from 'lodash-es';
 import { format } from 'date-fns';
+
 export default {
   components: { BeanForm, BeanList, BeanBatchForm },
   data() {
     const qps = qs.parse(location.search, { ignoreQueryPrefix: true })
-
     return {
       query: qps,
       refs: {},
@@ -72,6 +71,7 @@ export default {
       headers: [
         { title: '#', value: 'id' },
         { title: '名称', align: 'left', sortable: true, value: 'name' },
+        { title: '处理方式', sortable: true, value: 'process' },
         { title: '库存', value: 'rawStock' },
         { title: '状态', value: 'status' },
         {
@@ -87,7 +87,6 @@ export default {
     }
   },
   mounted() {
-    this.load()
   },
   computed: {},
   watch: {},
@@ -105,11 +104,11 @@ export default {
     },
     save(form) {
       form.status = 'valid'
-      this.$api.roast.updateBean(form, (r) => {
+      this.$api2.bean.update(form, (r) => {
         this.load()
         this.formDlg = false
       }, e => {
-        this.errors = e.message
+        this.errors = e.data
       })
     },
     inStock(bean) {
@@ -124,8 +123,11 @@ export default {
     outStock(bean) {
 
     },
+    price(bean) {
+      this.goTo(`/bean/price/?beanid=${bean.id}`)
+    },
     saveBatch(form) {
-      this.$api.roast.updateBeanBatch(form, (r) => {
+      this.$api2.bean.updateBatch(form, (r) => {
         this.load()
         this.batchDlg = false
       }, e => {

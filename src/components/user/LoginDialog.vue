@@ -1,84 +1,16 @@
 <template>
   <v-dialog v-model="showLogin">
-    <v-card class="pa-4">
-      <v-tabs grow v-model="mode">
-        <v-tab value="mobile">
-          {{ $t('login.mobile_login') }}
-        </v-tab>
-        <v-tab value="password">
-          {{ $t('login.password_login') }}
-        </v-tab>
-      </v-tabs>
-      <v-window v-model="mode">
-        <v-window-item value="mobile">
-          <mobile-login-form @success="onMobileLoggedInSuccess" />
-        </v-window-item>
-        <v-window-item value="password">
-          <login-form />
-        </v-window-item>
-      </v-window>
-
-      <v-btn block v-if="$soul.login.wechat && (isApp || isWechat)" @click="wechatLogin" class="mt-2" color="#44b549"
-        dark>
-        <v-icon>mdi-wechat</v-icon>{{ $t('login.sign_in_wechat') }}
-      </v-btn>
-      <v-btn block v-if="$soul.login.apple && (isIOS || isAppIOS) && !isWechatApp" :dark="!$vuetify.theme.dark"
-        @click="appleLogin" class="mt-2">
-        <v-icon>mdi-apple</v-icon>{{ $t('login.sign_in_apple') }}
-      </v-btn>
-      <v-btn block v-if="$soul.login.apple && isAppIOS" :dark="!$vuetify.theme.dark" @click="touchIdLogin" class="mt-2">
-        <v-icon>mdi-fingerprint</v-icon>
-        {{ $t('login.sign_in_touchid') }}
-      </v-btn>
-      <div class="mt-2 d-flex flex-wrap align-center">
-        <v-btn text color="primary" @click="register" class="">{{
-          $t('login.register')
-          }}</v-btn>
-        <v-btn text color="primary" @click="forgot" class="">{{
-          $t('login.forgot_password')
-          }}</v-btn>
-
-        <!-- <page-dialog :code="`useragreement-${$i18n.locale}`"
-						>&nbsp;{{ $t('user_agreement') }}</page-dialog
-					>
-					<page-dialog :code="`privacypolicy-${$i18n.locale}`"
-						>&nbsp;{{ $t('privacy_policy') }}</page-dialog
-					> -->
-      </div>
-      <!--
-				<v-btn
-					v-if="$soul.login.github && !isWechatApp"
-					text
-					@click="goTo('/oauth/index/Github')"
-					class="mt-2"
-				>
-					<v-icon>mdi-github</v-icon>
-				</v-btn>
-				<v-btn
-					v-if="$soul.login.facebook"
-					text
-					@click="goTo('/oauth/facebook')"
-					class="mt-2"
-				>
-					<v-icon>mdi-facebook</v-icon>
-				</v-btn>
-
-				<v-btn
-					v-if="$soul.login.google && !isWechat"
-					text
-					@click="goTo('/oauth/google')"
-					class="mt-2"
-				>
-					<v-icon>mdi-google</v-icon>
-				</v-btn> -->
+    <v-card>
+      <v-card-title class="d-flex justify-center">登录</v-card-title>
+      <v-card-text>
+        <login-form @success="onSuccess" />
+      </v-card-text>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
 import Utils from '@/utils/utils'
-// import MobileLoginForm from './MobileLoginForm'
-// import LoginForm from './LoginForm'
 import { mapState, mapWritableState, mapActions } from 'pinia'
 import { useRootStore } from '@/stores/root'
 import { useVisitorStore } from '@/stores/visitor'
@@ -124,7 +56,8 @@ export default {
       this.$router.push('/user/register')
       this.showLogin = false
     },
-    onMobileLoggedInSuccess(r) {
+    onSuccess(res) {
+      this.onLoggedIn(res)
       this.showLogin = false
     },
     wechatLogin() {

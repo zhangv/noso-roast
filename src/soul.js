@@ -13,11 +13,15 @@ const soul = {
 		process.env.NODE_ENV === 'production'
 			? 'https://nosoapi.hahacking.com'
 			: 'http://devnosoapi.hahacking.com',
+	backEndHost2:
+		process.env.NODE_ENV === 'production'
+			? 'https://nosoapi2.hahacking.com' // TODO: 临时
+			: `http://localhost:8000`,
 	menu: [
 		{
 			title: '订单',
 			icon: 'mdi:cash-register',
-			to: '/order'
+			to: '/order/manage'
 		},
 		{
 			title: '生豆',
@@ -35,6 +39,28 @@ const soul = {
 			title: '杯测',
 			icon: 'mdi-cup',
 			to: '/cupping/manage'
+		},
+		{
+			title: '用户',
+			icon: 'mdi-account',
+			to: '/acl/usermanage'
+		},
+		{
+			title: '配置',
+			icon: 'mdi-cogs',
+			to: '/setting',
+			items: [
+				{
+					title: '通用',
+					icon: 'mdi-table-large',
+					to: '/setting/common'
+				},
+				{
+					title: '账户',
+					icon: 'mdi-wallet',
+					to: '/account/manage'
+				}
+			]
 		},
 		{
 			title: '数据',
@@ -65,11 +91,6 @@ const soul = {
 			to: '/acl',
 			items: [
 				{
-					title: '用户',
-					icon: 'mdi-account',
-					to: '/acl/usermanage'
-				},
-				{
 					title: '角色',
 					icon: 'mdi-account-tie',
 					to: '/acl/rolemanage'
@@ -86,33 +107,7 @@ const soul = {
 				}
 			]
 		},
-		{
-			title: '配置',
-			icon: 'mdi-cogs',
-			to: '/setting',
-			items: [
-				{
-					title: '通用',
-					icon: 'mdi-table-large',
-					to: '/setting/common'
-				},
-				{
-					title: 'API参数',
-					icon: 'mdi-wechat',
-					to: '/setting/api'
-				},
-				{
-					title: '支付参数',
-					icon: 'mdi-piggy-bank-outline',
-					to: '/setting/payment'
-				},
-				{
-					title: '公众号菜单',
-					icon: 'mdi-menu',
-					to: '/setting/wechatmenu'
-				}
-			]
-		},
+
 		{
 			title: '工具',
 			icon: 'mdi-tools',

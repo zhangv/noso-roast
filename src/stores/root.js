@@ -104,7 +104,6 @@ export const useRootStore = defineStore('root', {
 			})
 		},
 		setShowLogin(show) {
-			console.debug('showlogin', show)
 			this.showLogin = show
 		},
 		setShowDrawer(show) {

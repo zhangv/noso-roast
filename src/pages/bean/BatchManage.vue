@@ -50,9 +50,7 @@
 
 <script>
 import qs from 'qs'
-import BeanBatchForm from '@/components/bean/BeanBatchForm.vue'
-import BeanBatchList from '@/components/bean/BeanBatchList.vue';
-import BeanStockLogList from '@/components/bean/BeanStockLogList.vue';
+import { BeanBatchForm, BeanBatchList, BeanStockLogList } from '@ui'
 import { clone } from 'lodash-es';
 import { format } from 'date-fns'
 export default {
@@ -101,7 +99,7 @@ export default {
       this.$refs.stocklist.load()
     },
     loadBean() {
-      this.$api.roast.getBeanById(this.beanid, (r) => {
+      this.$api2.bean.getById(this.beanid, (r) => {
         this.bean = r
       })
     },
@@ -116,7 +114,7 @@ export default {
     },
 
     save(form) {
-      this.$api.roast.updateBeanBatch(form, (r) => {
+      this.$api2.bean.updateBatch(form, (r) => {
         this.load()
         this.formDlg = false
       }, e => {

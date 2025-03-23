@@ -5,12 +5,12 @@
       <v-icon color="primary" @click="start">$plus</v-icon>
       <v-icon color="info" @click="load">$reload</v-icon>
     </v-card-title>
-    <RoastOrderList ref="thelist" show-select :single-select="false" :init-query.sync="query" :headers="headers">
+    <RoastList ref="thelist" show-select :single-select="false" :init-query.sync="query" :headers="headers">
       <template v-slot:batchActions="{ selected }"> </template>
       <template v-slot:actions="{ item }">
+        <!-- <v-icon class="mr-2" @click="detail(item)">$info</v-icon> -->
         <v-icon class="mr-2" @click="profile(item)">$edit</v-icon>
         <v-icon class="mr-2" @click="del(item)" color="error">$delete</v-icon>
-
         <template v-if="item.status === 'start'">
           <v-btn classs="mr-2" @click="complete(item)">完成</v-btn>
           <v-btn classs="mr-2" @click="cancel(item)">取消</v-btn>
@@ -19,7 +19,7 @@
           <v-btn classs="mr-2" @click="cupping(item)">杯测WIP</v-btn>
         </template>
       </template>
-    </RoastOrderList>
+    </RoastList>
     <v-dialog v-model="startDlg">
       <v-card>
         <start-form v-model:value="startForm" :errors="startErrors">
@@ -54,21 +54,27 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="detailDlg">
+      <v-card>
+        <v-card-title>烘焙详情</v-card-title>
+        <v-card-text>
+          <p>{{ detailObj.description }}</p>
+          <p>状态: {{ detailObj.status }}</p>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import qs from 'qs'
-import BeanProfileForm from '@/components/bean/BeanForm.vue'
-import BeanSelector from '@/components/bean/BeanSelector.vue'
-
-import RoastOrderList from '@/components/roast/RoastOrderList.vue'
-import StartForm from '@/components/roast/StartForm.vue'
-import CompleteForm from '@/components/roast/CompleteForm.vue'
-import ProfileForm from '@/components/roast/ProfileForm.vue'
+import {
+  BeanSelector, RoastList, RoastStartForm as StartForm, RoastCompleteForm as CompleteForm,
+  RoastProfileForm as ProfileForm
+} from '@ui'
 export default {
   components: {
-    BeanProfileForm, RoastOrderList, BeanSelector, StartForm
+    RoastList, BeanSelector, StartForm
     , CompleteForm, ProfileForm
   },
   data() {
@@ -93,6 +99,9 @@ export default {
       completeDlg: false,
       completeForm: {},
       completeErrors: {},
+      detailId: null,
+      detailDlg: false,
+      detailObj: {},
       headers: [
         { title: '#', value: 'id' },
         { title: '名称', align: 'left', sortable: true, value: 'name' },
@@ -120,10 +129,10 @@ export default {
       this.startDlg = true
     },
     confirmStart(form) {
-      this.$http.post(`/roast/start`, form).then(r => {
+      this.$api2.roast.start(form, r => {
         this.load()
         this.startDlg = false
-      }).catch(e => {
+      }, e => {
         this.startErrors = e.message
       })
     },
@@ -136,29 +145,33 @@ export default {
         alert('saved')
       })
     },
+    detail(roast) {
+      this.detailDlg = true
+      this.$api2.roast.getById(roast.id, r => {
+        this.detailObj = r
+      })
+    },
     profile(item) {
       this.profileDlg = true
       this.profileId = item.id
     },
     confirmProfile(form) {
-      console.log('form', form)
-      this.$http.post(`/roast/updateProfile`, form).then(r => {
+      form.roast_id = this.profileId
+      this.$api2.roast.updateProfile(form, r => {
         this.profileDlg = false
         this.load()
-
-      }).catch(e => {
+      }, e => {
         this.profileErrors = e.message
       })
     },
     complete(roast) {
       this.completeDlg = true
       this.completeForm = {
-        roastOrder_id: roast.id,
+        id: roast.id,
       }
     },
     confirmComplete(form) {
-      console.log('form', form)
-      this.$http.post(`/roast/complete`, form).then(r => {
+      this.$api2.roast.complete(form, r => {
         this.load()
         this.completeDlg = false
       }).catch(e => {
@@ -167,8 +180,8 @@ export default {
     },
     cancel(roast) {
       this.$confirm('确定要取消吗？').then((r) => {
-        if (r === true) {
-          this.$http.get(`/roast/cancel/${roast.id}`).then(r => {
+        if (r) {
+          this.$api2.roast.cancel(roast.id, r => {
             this.load()
           }).catch(e => {
             alert(e.message)
