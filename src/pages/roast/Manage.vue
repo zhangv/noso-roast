@@ -103,13 +103,13 @@ export default {
       detailDlg: false,
       detailObj: {},
       headers: [
-        { title: '#', value: 'id' },
+        { title: '#', sortable: true, value: 'id' },
         { title: '名称', align: 'left', sortable: true, value: 'name' },
         { title: '生豆', value: 'bean_id' },
-        { title: '生重', value: 'inqty' },
-        { title: '熟重', value: 'outqty' },
-        { title: '开始时间', value: 'starttime' },
-        { title: '状态', value: 'status' },
+        { title: '生重', sortable: true, value: 'inqty' },
+        { title: '熟重', sortable: true, value: 'outqty' },
+        { title: '开始时间', sortable: true, value: 'starttime' },
+        { title: '状态', sortable: true, value: 'status' },
         {
           text: '操作',
           align: 'left',

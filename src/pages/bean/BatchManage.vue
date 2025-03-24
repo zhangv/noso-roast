@@ -23,7 +23,8 @@
           </BeanBatchList>
         </v-col>
         <v-col cols="12" sm="6">
-          <BeanStockLogList :bean-id="beanid" ref="stocklist" :single-select="false" :init-query.sync="query">
+          <BeanStockLogList title="库存变动历史" :bean-id="beanid" ref="stocklist" :single-select="false"
+            :init-query.sync="query">
             <template v-slot:batchActions="{ selected }"> </template>
             <template v-slot:actions="{ item }">
               <!-- <v-btn small @click="stocklog(item)">库存变动记录</v-btn> -->

@@ -72,8 +72,8 @@ export default {
         { title: '#', value: 'id' },
         { title: '名称', align: 'left', sortable: true, value: 'name' },
         { title: '处理方式', sortable: true, value: 'process' },
-        { title: '库存', value: 'rawStock' },
-        { title: '状态', value: 'status' },
+        { title: '库存', sortable: true, value: 'rawStock' },
+        { title: '状态', sortable: true, value: 'status' },
         {
           title: '操作',
           align: 'left',
