@@ -82,7 +82,7 @@ export default {
     },
 
     save(form) {
-      this.$api2.bean.updatePriceLevel(form, (r) => {
+      this.$api2.price.updateLevel(form, (r) => {
         this.load()
         this.formDlg = false
       }, e => {
