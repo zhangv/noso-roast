@@ -329,6 +329,9 @@ const vuetify = createVuetify({
 		VSheet: {
 			elevation: 4
 		},
+    VTable:{
+      hover: true
+    },
 		VDataTable: {
 			hover: true
 			// elevation: 0
