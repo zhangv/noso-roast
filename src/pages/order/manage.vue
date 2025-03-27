@@ -1,5 +1,20 @@
 <template>
   <div>
+    <!-- <v-dialog v-model="formDlg"> -->
+    <v-card>
+      <v-card-title>编辑订单信息</v-card-title>
+      <v-card-text>
+        <order-form v-model:value="form" :errors="errors">
+          <template #actions="{ object }">
+            <v-card-actions>
+              <v-btn color="primary" size="large" @click="save(object)">保存</v-btn>
+            </v-card-actions>
+          </template>
+        </order-form>
+      </v-card-text>
+    </v-card>
+    <!-- </v-dialog> -->
+
     <v-card-title class="d-flex align-center">
       订单管理
       <v-icon color="primary" dark @click="add">$plus</v-icon>
@@ -12,25 +27,11 @@
         <v-btn small @click="detail(item)">详情</v-btn>
         <template v-if="item.status == 'created'">
           <v-btn small @click="confirmPay(item)">确认支付</v-btn>
-
         </template>
       </template>
     </OrderList>
 
-    <v-dialog v-model="formDlg">
-      <v-card>
-        <v-card-title>编辑订单信息</v-card-title>
-        <v-card-text>
-          <order-form v-model:value="form" :errors="errors">
-            <template #actions="{ object }">
-              <v-card-actions>
-                <v-btn color="primary" size="large" @click="save(object)">保存</v-btn>
-              </v-card-actions>
-            </template>
-          </order-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+
 
   </div>
 </template>

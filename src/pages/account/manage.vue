@@ -7,23 +7,20 @@
       <v-spacer></v-spacer>
     </v-card-title>
     <v-card-text>
-      <AccountList ref="thelist" show-select :single-select="false" :init-query.sync="query">
+      <ShopAccountTable ref="thelist" :headers="headers" show-select :single-select="false" :init-query.sync="query">
         <template v-slot:batchActions="{ selected }"> </template>
         <template v-slot:actions="{ item }">
-          <!-- <v-btn small @click="edit(item)">修改</v-btn> -->
+          <v-btn small @click="edit(item)">修改</v-btn>
         </template>
-      </AccountList>
+      </ShopAccountTable>
 
     </v-card-text>
     <v-dialog v-model="formDlg">
-      <v-card>
-        <v-card-title>编辑账户信息</v-card-title>
-        <account-form v-model:value="form" :errors="errors">
-          <template #actions="{ object }">
-            <v-btn @click="save(object)">保存</v-btn>
-          </template>
-        </account-form>
-      </v-card>
+      <account-form v-model:value="form" :errors="errors">
+        <template #actions="{ object }">
+          <v-btn color=primary @click="save(object)">保存</v-btn>
+        </template>
+      </account-form>
     </v-dialog>
 
   </div>
@@ -31,11 +28,11 @@
 
 <script>
 import qs from 'qs'
-import { ShopAccountForm, ShopAccountList } from '@ui'
+import { ShopAccountForm, ShopAccountTable } from '@ui'
 import { clone } from 'lodash-es';
 import { format } from 'date-fns'
 export default {
-  components: { AccountForm: ShopAccountForm, AccountList: ShopAccountList },
+  components: { AccountForm: ShopAccountForm, ShopAccountTable },
   props: [],
   data() {
     const qps = qs.parse(location.search, { ignoreQueryPrefix: true })
@@ -51,13 +48,12 @@ export default {
       form: {},
       errors: {},
       headers: [
-        { text: '#', value: 'id' },
-        { text: '日期', align: 'left', sortable: true, value: 'date' },
-        { text: '客户', value: 'user_id' },
-        { text: '总金额', value: 'totalAmt' },
-        { text: '实付金额', value: 'payAmt' },
+        { title: '#', value: 'id' },
+        { title: '账户名', value: 'name' },
+        { title: '类型', value: 'type' },
+        { title: '余额', value: 'balance' },
         {
-          text: '操作',
+          title: '操作',
           align: 'left',
           sortable: false,
           value: 'action'

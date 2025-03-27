@@ -333,12 +333,11 @@ const vuetify = createVuetify({
       hover: true
     },
 		VDataTable: {
-			hover: true
-			// elevation: 0
+			hover: true,
 		},
 		VDataTableServer: {
-			hover: true
-			// elevation: 0
+			hover: true,
+      itemsPerPageOptions: [5, 10, 20, 30,50,100]
 		},
 		VRadioGroup: {
 			hideDetails: 'auto'
