@@ -10,10 +10,16 @@ import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 // Utilities
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
+import { visualizer } from 'rollup-plugin-visualizer';
+import { mdi } from 'vuetify/iconsets/mdi'
 
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
+		visualizer({
+			open: true, // 打包完成后自动打开分析报告
+			filename: 'stats.html' // 生成的报告文件名
+		  }),
 		VueRouter(),
 		// Layouts(),
 		Vue({
@@ -57,5 +63,22 @@ export default defineConfig({
 	},
 	server: {
 		port: 3000
-	}
+	},
+	build: {
+		rollupOptions: {
+		  output: {
+			manualChunks: {
+			  // 将 Vue 和 Vue Router 分离到单独的 chunk 中
+			  vue: ['vue', 'vue-router'],
+			  // 将其他第三方库分离
+			  vendor: ['axios', 'lodash'],
+			  echart: ['echarts'],
+			  html5qrcode: ['html5-qrcode'],
+			  vuetify: ['vuetify/components'],
+			  mdi: ['@mdi/js'],
+			  app:['@ui']
+			}
+		  }
+		}
+	  }
 })
