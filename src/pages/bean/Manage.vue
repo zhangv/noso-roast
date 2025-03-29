@@ -14,7 +14,7 @@
       <v-btn class="mr-2 mb-1" small @click="stock(item)">批次查询</v-btn>
       <v-btn class="mr-2 mb-1" small @click="inStock(item)">入库</v-btn>
       <v-btn class="mr-2 mb-1" small @click="price(item)">价格</v-btn>
-      <!-- <v-btn class="mr-2 mb-1" small @click="outStock(item)">出库</v-btn> -->
+      <v-btn class="mr-2 mb-1" small @click="outStock(item)">出库</v-btn>
     </template>
   </BeanList>
   <v-dialog v-model="formDlg">
@@ -32,28 +32,34 @@
     </v-card>
   </v-dialog>
   <v-dialog v-model="batchDlg">
+    <bean-batch-form v-model:value="batchForm" :errors="batchErrors">
+      <template #actions="{ object }">
+        <v-btn color="primary" large @click="saveBatch(object)">保存</v-btn>
+        <v-btn color="" large @click="batchDlg = false">关闭</v-btn>
+      </template>
+    </bean-batch-form>
+
+  </v-dialog>
+  <v-dialog v-model="outDlg">
     <v-card>
-      <v-card-title>批次编辑</v-card-title>
-      <v-card-text>
-        <bean-batch-form v-model:value="batchForm" :errors="batchErrors">
-          <template #actions="{ object }">
-            <v-btn color="primary" large @click="saveBatch(object)">保存</v-btn>
-          </template>
-        </bean-batch-form>
-      </v-card-text>
+      <v-card-title>出库</v-card-title>
+      <BeanStockLogForm v-model:value="outForm" :errors="outErrors">
+        <template #actions="{ object }">
+          <v-btn color="primary" @click="saveStockLog(object)">保存</v-btn>
+        </template>
+      </BeanStockLogForm>
     </v-card>
   </v-dialog>
-
 </template>
 
 <script>
 import qs from 'qs'
-import { BeanForm, BeanList, BeanBatchForm } from '@ui'
+import { BeanForm, BeanList, BeanBatchForm, BeanStockLogForm } from '@ui'
 import { clone } from 'lodash-es';
 import { format } from 'date-fns';
 
 export default {
-  components: { BeanForm, BeanList, BeanBatchForm },
+  components: { BeanForm, BeanList, BeanBatchForm, BeanStockLogForm },
   data() {
     const qps = qs.parse(location.search, { ignoreQueryPrefix: true })
     return {
@@ -67,6 +73,9 @@ export default {
       options: {},
       formDlg: false,
       form: {},
+      outDlg: false,
+      outForm: {},
+      outErrors: {},
       errors: {},
       headers: [
         { title: '#', value: 'id' },
@@ -121,6 +130,20 @@ export default {
       this.batchDlg = true
     },
     outStock(bean) {
+      this.outDlg = true
+      this.outForm = {
+        bean_id: bean.id,
+        date: format(new Date(), 'yyyy-MM-dd'),
+        type: 'out'
+      }
+    },
+    saveStockLog(log) {
+      this.$api2.bean.updateStockLog(log, (r) => {
+        this.load()
+        this.outDlg = false
+      }, e => {
+        this.outErrors = e.message
+      })
 
     },
     price(bean) {

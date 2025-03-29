@@ -69,14 +69,16 @@ export default defineConfig({
 		  output: {
 			manualChunks: {
 			  // 将 Vue 和 Vue Router 分离到单独的 chunk 中
-			  vue: ['vue', 'vue-router'],
+			  vue: ['vue', 'vue-router','vue-i18n','pinia'],
 			  // 将其他第三方库分离
-			  vendor: ['axios', 'lodash'],
+			  vendor: ['axios', 'lodash-es'],
 			  echart: ['echarts'],
 			  html5qrcode: ['html5-qrcode'],
+			  html2canvas: ['html2canvas'],
 			  vuetify: ['vuetify/components'],
 			  mdi: ['@mdi/js'],
-			  app:['@ui']
+			  validator: ['validator'],
+			  appui:['@ui']
 			}
 		  }
 		}

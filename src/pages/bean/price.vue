@@ -1,6 +1,7 @@
 <template>
   <v-card>
     <v-card-title class="d-flex align-center">
+      <template v-if="bean">{{ bean.name }}</template>
       熟豆价格表
       <v-btn color="primary" dark @click="generate">生成</v-btn>
       <v-icon color="info" @click="load">$reload</v-icon>
