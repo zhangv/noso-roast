@@ -40,15 +40,12 @@
     </bean-batch-form>
 
   </v-dialog>
-  <v-dialog v-model="outDlg">
-    <v-card>
-      <v-card-title>出库</v-card-title>
-      <BeanStockLogForm v-model:value="outForm" :errors="outErrors">
-        <template #actions="{ object }">
-          <v-btn color="primary" @click="saveStockLog(object)">保存</v-btn>
-        </template>
-      </BeanStockLogForm>
-    </v-card>
+  <v-dialog v-model="outDlg" max-width="80%">
+    <BeanStockLogForm v-model:value="outForm" :errors="outErrors">
+      <template #actions="{ object }">
+        <v-btn color="primary" @click="saveStockLog(object)">保存</v-btn>
+      </template>
+    </BeanStockLogForm>
   </v-dialog>
 </template>
 
@@ -124,8 +121,7 @@ export default {
       this.batchForm = {
         bean_id: bean.id,
         date: format(new Date(), 'yyyy-MM-dd'),
-        totalQty: 0,
-        type: 'in'
+
       }
       this.batchDlg = true
     },
@@ -154,7 +150,7 @@ export default {
         this.load()
         this.batchDlg = false
       }, e => {
-        this.batchErrors = e.message
+        this.batchErrors = e.data
       })
     },
     del(item) {

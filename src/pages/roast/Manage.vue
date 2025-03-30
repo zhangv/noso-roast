@@ -174,7 +174,7 @@ export default {
       this.$api2.roast.complete(form, r => {
         this.load()
         this.completeDlg = false
-      }).catch(e => {
+      }, e => {
         this.completeErrors = e.message
       })
     },

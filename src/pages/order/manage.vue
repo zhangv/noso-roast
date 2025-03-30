@@ -26,6 +26,7 @@
       <template v-slot:actions="{ item }">
         <v-btn small @click="detail(item)">详情</v-btn>
         <template v-if="item.status == 'created'">
+          <v-btn small @click="edit(item)">修改</v-btn>
           <v-btn small @click="confirmPay(item)">确认支付</v-btn>
         </template>
       </template>
@@ -96,6 +97,11 @@ export default {
       }, e => {
         this.errors = e.message
       })
+    },
+    edit(order) {
+      console.log('edit', order)
+      this.form = order
+      this.formDlg = true
     },
     detail(order) {
       //TODO
