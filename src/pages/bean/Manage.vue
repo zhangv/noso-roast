@@ -6,7 +6,7 @@
     <v-icon color="info" @click="load">$reload</v-icon>
     <v-spacer></v-spacer>
   </v-card-title>
-  <BeanList ref="thelist" show-select :single-select="false" :init-query.sync="query" :headers="headers">
+  <BeanList ref="thelist" show-select :single-select="false" :init-query.sync="query">
     <template v-slot:batchActions="{ selected }"> </template>
     <template v-slot:actions="{ item }">
       <v-icon class="mr-2 mb-1" @click="edit(item)">$edit</v-icon>
@@ -74,19 +74,7 @@ export default {
       outForm: {},
       outErrors: {},
       errors: {},
-      headers: [
-        { title: '#', value: 'id' },
-        { title: '名称', align: 'left', sortable: true, value: 'name' },
-        { title: '处理方式', sortable: true, value: 'process' },
-        { title: '库存', sortable: true, value: 'rawStock' },
-        { title: '状态', sortable: true, value: 'status' },
-        {
-          title: '操作',
-          align: 'left',
-          sortable: false,
-          value: 'action'
-        }
-      ],
+
       batchForm: {},
       batchErrors: {},
       batchDlg: false
