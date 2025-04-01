@@ -68,5 +68,5 @@ app.config.globalProperties.$formatDate = function (long) {
 import 'iconify-icon'
 import { Icon } from '@iconify/vue'
 app.component('Icon', Icon) //全局注册
-
+app.component('iconify-icon', Icon) //全局注册
 app.mount('#app')
