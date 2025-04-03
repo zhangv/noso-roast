@@ -2,9 +2,6 @@
   <v-app>
     <login-dialog />
     <snack-bar position="fixed" rounded class="safe-fixed-top d-flex justify-space-between" />
-    <!-- <v-main>
-      <router-view />
-    </v-main> -->
     <div class="overflow-y-auto mt-0 mx-0" id="main" style="height: 100vh">
       <router-view v-slot="{ Component }">
         <component :is="Component" v-if="Component" />

@@ -76,6 +76,7 @@ export default {
       headers: [
         { text: '#', value: 'id' },
         { text: '日期', align: 'left', sortable: true, value: 'date' },
+        { text: '豆类型', value: 'beantype' },
         { text: '总数量', value: 'totalQty' },
         { text: '当前数量', value: 'currentQty' },
         { text: '类型', value: 'type' },
