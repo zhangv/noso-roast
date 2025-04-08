@@ -1,20 +1,24 @@
 <template>
-  <v-app>
-    <AppHeader />
+  <AppHeader />
 
-    <AppDrawer />
+  <AppDrawer />
 
-    <v-main>
-      <router-view />
-    </v-main>
+  <v-main>
 
-    <!-- <AppFooter /> -->
+    <router-view v-slot="{ Component, route }">
+      <keep-alive :include=cachedPages>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
+  </v-main>
 
-  </v-app>
+  <!-- <AppFooter /> -->
+
 </template>
 
 <script setup>
 import AppHeader from '../components/AppHeader.vue'
 import AppDrawer from '../components/AppDrawer.vue'
 import AppFooter from '../components/AppFooter.vue'
+const cachedPages = ['bean-manage']
 </script>

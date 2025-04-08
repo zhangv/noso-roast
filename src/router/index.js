@@ -33,7 +33,7 @@ const routes = Object.keys(pageComponents).map((filePath) => {
 			{
 				// Use an empty path for the child route to directly render it in the default layout
 				path: '',
-				component: pageComponents[filePath] // Lazy-load the page component
+        component: pageComponents[filePath] // Lazy-load the page component
 			}
 		]
 	}

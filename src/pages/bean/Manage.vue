@@ -56,6 +56,7 @@ import { clone } from 'lodash-es';
 import { format } from 'date-fns';
 
 export default {
+  name: 'bean-manage',
   components: { BeanForm, BeanList, BeanBatchForm, BeanStockLogForm },
   data() {
     const qps = qs.parse(location.search, { ignoreQueryPrefix: true })

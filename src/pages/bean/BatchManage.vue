@@ -60,7 +60,7 @@ export default {
   data() {
     const qps = qs.parse(location.search, { ignoreQueryPrefix: true })
     return {
-      beanid: qps['beanid'],
+      beanid: qps['bean_id'],
       bean: {},
       query: qps,
       refs: {},
