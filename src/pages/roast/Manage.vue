@@ -127,6 +127,9 @@ export default {
   methods: {
     start() {
       this.startDlg = true
+      this.startForm = {
+        date: new Date().toISOString().slice(0, 10),
+      }
     },
     confirmStart(form) {
       this.$api2.roast.start(form, r => {

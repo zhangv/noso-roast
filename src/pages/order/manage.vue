@@ -19,11 +19,16 @@
     <OrderList ref="thelist" show-select :single-select="false" :init-query.sync="query">
       <template v-slot:batchActions="{ selected }"> </template>
       <template v-slot:actions="{ item }">
-        <v-btn small @click="detail(item)">详情</v-btn>
+        <v-btn small class="mr-1 mb-1" @click="detail(item)">详情</v-btn>
         <template v-if="item.status == 'created'">
-          <v-btn small @click="edit(item)">修改</v-btn>
-          <v-btn small @click="settle(item)">结算</v-btn>
+          <v-btn small class="mr-1 mb-1" @click="edit(item)">修改</v-btn>
+          <v-btn small class="mr-1 mb-1" @click="settle(item)">结算</v-btn>
         </template>
+        <template v-if="item.status == 'placed'">
+          <v-btn small class="mr-1 mb-1" @click="settleById(item)">结算</v-btn>
+          <v-btn small class="mr-1 mb-1" @click="settle(item)">重新结算</v-btn>
+        </template>
+
       </template>
     </OrderList>
     <v-dialog v-model="settleDlg">
@@ -110,9 +115,26 @@ export default {
       this.settleDlg = true
       this.settleOrder = clone(order)
     },
+    settleById(order) {
+      this.$api2.order.settle({
+        order_id: order.id,
+        orderpayment_id: order.orderpayment_id,
+      }, (r) => {
+        this.load()
+        this.settleDlg = false
+      }, e => {
+        this.errors = e.data
+      })
+    },
     confirmSettle(payitems) {
-      console.log('confirmSettle', payitems)
-
+      this.$api2.order.settle({
+        order_id: this.settleOrder.id, payitems
+      }, (r) => {
+        this.load()
+        this.settleDlg = false
+      }, e => {
+        this.errors = e.data
+      })
     },
   }
 }
