@@ -1,19 +1,13 @@
 <template>
   <AppHeader />
-
   <AppDrawer />
-
   <v-main>
-
     <router-view v-slot="{ Component, route }">
       <keep-alive :include=cachedPages>
         <component :is="Component" />
       </keep-alive>
     </router-view>
   </v-main>
-
-  <!-- <AppFooter /> -->
-
 </template>
 
 <script setup>
