@@ -86,7 +86,7 @@ export default {
 	watch: {},
 	methods: {
 		load() {
-			this.$api2.price.search({ bean_id: this.beanid, sortBy: 'level_name' }, (r) => {
+			this.$api2.price.search({ bean_id: this.beanid }, (r) => {
 				this.prices = r.objects
 			})
 		},
