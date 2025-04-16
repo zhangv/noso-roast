@@ -1,17 +1,5 @@
 // Styles
-import '@mdi/font/css/materialdesignicons.css' //mdi-前缀
-
-import 'vuetify/styles'
-
-import { createVuetify } from 'vuetify'
-import { aliases as mdiAliases, mdi } from 'vuetify/iconsets/mdi' //如果直接用 icon=mdi-xxx
-import {
-	aliases as mdiSvgAliases,
-	mdi as mdiSvg
-} from 'vuetify/iconsets/mdi-svg' //使用mdi-svg - 可以tree shake
-
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
+import '@mdi/font/css/materialdesignicons.css'
 import {
 	mdiMusicNoteOutline,
 	mdiMusicNoteOffOutline,
@@ -150,6 +138,18 @@ import {
 	mdiQrcodeScan,
 	mdiVolumeHigh
 } from '@mdi/js'
+import { createVuetify } from 'vuetify'
+//使用mdi-svg - 可以tree shake
+
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+import { aliases as mdiAliases, mdi } from 'vuetify/iconsets/mdi'
+//如果直接用 icon=mdi-xxx
+import { aliases as mdiSvgAliases, mdi as mdiSvg } from 'vuetify/iconsets/mdi-svg'
+//mdi-前缀
+
+import 'vuetify/styles'
+
 const customIcons = {
 	truck: mdiTruck,
 	accountPay: mdiAccountCircle,
@@ -329,15 +329,15 @@ const vuetify = createVuetify({
 		VSheet: {
 			elevation: 4
 		},
-    VTable:{
-      hover: true
-    },
+		VTable: {
+			hover: true
+		},
 		VDataTable: {
-			hover: true,
+			hover: true
 		},
 		VDataTableServer: {
 			hover: true,
-      itemsPerPageOptions: [5, 10, 20, 30,50,100]
+			itemsPerPageOptions: [5, 10, 20, 30, 50, 100]
 		},
 		VRadioGroup: {
 			hideDetails: 'auto'
@@ -354,19 +354,30 @@ const vuetify = createVuetify({
 		// 	darken: 2
 		// },
 		themes: {
-			// myCustomTheme: {
-			//   dark: false,
-			//   colors: {
-			//     // primary: '#7a8a70', //莫蓝迪绿
-			//     // secondary: '#85171a', //黑色 colors.teal.base,
-			//     // accent: '#7e121f', //猩红
-			//     // error: '#AF2045', // 暗红 colors.red.base,
-			//     // warning: '#efb44b', //土黄 colors.amber.base,
-			//     // info: colors.cyan.base,
-			//     // success: colors.green.base,
-			//     // silent: colors.grey.base,
-			//   }
-			// }
+			light: {
+				dark: false,
+				colors: {
+					primary: '#91B493', // You can change this to any color you prefer
+					secondary: '#424242',
+					accent: '#82B1FF',
+					error: '#FF5252',
+					info: '#2196F3',
+					success: '#4CAF50',
+					warning: '#FFC107'
+				}
+			},
+			dark: {
+				dark: true,
+				colors: {
+					primary: '#1976D2', // You can change this to any color you prefer
+					secondary: '#424242',
+					accent: '#82B1FF',
+					error: '#FF5252',
+					info: '#2196F3',
+					success: '#4CAF50',
+					warning: '#FFC107'
+				}
+			}
 		}
 	}
 }) // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides

@@ -102,7 +102,7 @@ export default {
 			this.$refs.stocklist.load()
 		},
 		loadBean() {
-			this.$api2.bean.getById(this.beanid, (r) => {
+			this.$api.bean.getById(this.beanid, (r) => {
 				this.bean = r
 			})
 		},
@@ -117,7 +117,7 @@ export default {
 		},
 
 		save(form) {
-			this.$api2.bean.updateBatch(
+			this.$api.bean.updateBatch(
 				form,
 				(r) => {
 					this.load()
@@ -135,7 +135,7 @@ export default {
 		undo(batch) {
 			this.$confirm('确定要撤销吗？').then((r) => {
 				if (r === true) {
-					this.$api2.bean.undoBatch(batch.id, (r) => {
+					this.$api.bean.undoBatch(batch.id, (r) => {
 						this.load()
 					})
 				}
@@ -149,8 +149,6 @@ export default {
 						const index = this.objects.findIndex((e) => e.ID === id)
 						if (index >= 0) this.objects.splice(index, 1)
 					})
-				} else {
-					alert(r)
 				}
 			})
 		}

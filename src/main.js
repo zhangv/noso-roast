@@ -1,14 +1,23 @@
 // Plugins
-import vuetify from './plugins/vuetify'
-import { createPinia } from 'pinia'
-const pinia = createPinia()
-import i18n from './plugins/i18n'
-import router from '@/router'
-
 // Components
 import App from './App.vue'
-
+import api from './api'
+import api2 from './api/api2'
+import http from './api/http'
+import http2 from './api/http2'
+import i18n from './plugins/i18n'
+import vuetify from './plugins/vuetify'
+import soul from './soul'
+import { useRootStore } from './stores/root'
+import router from '@/router'
+import registerStores from '@/stores'
+import { Icon } from '@iconify/vue'
+import { format } from 'date-fns'
+import 'iconify-icon'
+import { createPinia } from 'pinia'
 import { createApp } from 'vue'
+
+const pinia = createPinia()
 
 const app = createApp(App)
 // registerPlugins(app)
@@ -16,43 +25,40 @@ app.use(vuetify)
 app.use(pinia)
 app.use(router)
 app.use(i18n)
-import api from './api'
-app.config.globalProperties.$api = api
-import http from './api/http'
-app.config.globalProperties.$http = http
 
-import api2 from './api/api2'
+app.config.globalProperties.$api = api2
+
+app.config.globalProperties.$http = http2
+
 app.config.globalProperties.$api2 = api2
-import http2 from './api/http2'
+
 app.config.globalProperties.$http2 = http2
 
-import soul from './soul'
 app.config.globalProperties.$soul = soul
 
-import registerStores from '@/stores'
 const stores = registerStores()
 app.config.globalProperties.$stores = stores
 
-import { useRootStore } from './stores/root'
-import { format } from 'date-fns'
-app.config.globalProperties.$confirm = function (
+app.config.globalProperties.$confirm = async function (
 	title,
 	config //{ message, buttonTrueText, buttonFalseText }
 ) {
 	const store = useRootStore()
-	return new Promise((resolve, reject) => {
-		store.setConfirm({
-			title,
-			message: config ? config.message : null,
-			confirmText: config ? config.buttonTrueText : null,
-			cancelText: config ? config.buttonFalseText : null,
-			resolve: resolve,
-			reject: reject
+	try {
+		return await new Promise((resolve, reject) => {
+			store.setConfirm({
+				title,
+				message: config ? config.message : null,
+				confirmText: config ? config.buttonTrueText : null,
+				cancelText: config ? config.buttonFalseText : null,
+				resolve: resolve,
+				reject: reject
+			})
+			store.setShowConfirm(true)
 		})
-		store.setShowConfirm(true)
-	}).finally(() => {
+	} finally {
 		store.setShowConfirm(false)
-	})
+	}
 }
 app.config.globalProperties.goTo = function (path) {
 	router.push(path)
@@ -65,8 +71,6 @@ app.config.globalProperties.$formatDate = function (long) {
 	return format(date, 'yyyy-MM-dd')
 }
 
-import 'iconify-icon'
-import { Icon } from '@iconify/vue'
 app.component('Icon', Icon) //全局注册
 app.component('iconify-icon', Icon) //全局注册
 app.mount('#app')

@@ -84,7 +84,7 @@ export default {
 		},
 
 		save(form) {
-			this.$api2.shop.updateAccount(
+			this.$api.shop.updateAccount(
 				form,
 				(r) => {
 					this.load()

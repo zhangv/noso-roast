@@ -28,10 +28,6 @@
 				<v-card v-for="group in taggingGroups" :key="group.id">
 					<v-card-title>
 						{{ group.name }} -
-						<!-- <template v-for="tag in tagsByGroup[group.id]" :key="tag.id">
-							<v-chip class="mr-0" outlined>{{ tag.name }}</v-chip>
-							<v-icon class="mr-1" size="small" color="error" @click="removeTag(tag.id)">$close</v-icon>
-						</template> -->
 						<template v-for="tag in group.tags" :key="tag.id">
 							<tempalte v-if="tagNames.includes(tag.name)">
 								<v-chip class="mr-0" variant="outlined">
@@ -41,7 +37,14 @@
 									</v-icon>
 								</v-chip>
 							</tempalte>
-							<v-chip v-else>{{ tag.name }}({{ tag.id }})</v-chip>
+							<template v-else>
+								<v-chip>
+									{{ tag.name }}
+									<v-icon @click="addTag({ name: tag.name, group_name: group.name })" color="primary">
+										$plus
+									</v-icon>
+								</v-chip>
+							</template>
 						</template>
 					</v-card-title>
 				</v-card>
@@ -159,19 +162,25 @@ export default {
 				this.tags = r
 			})
 		},
-		addTag() {
-			this.$http2
-				.post(`/tag/add`, {
-					name: this.addTagForm.name,
-					group_name: this.addTagForm.group_name,
-					target_id: this.taggingObj.id + '',
-					target_type: 'bean'
-				})
-				.then((r) => {
-					// console.log('aaaaaaaaaaaaaaaaatgtag', r)
-					this.loadTags(this.taggingObj)
-					this.loadTagGroups()
-				})
+		addTagByForm() {
+			this.addTag(this.addTagForm)
+		},
+		addTag(tag) {
+			let data = {
+				name: tag.name,
+				target_id: this.taggingObj.id + '',
+				target_type: 'bean'
+			}
+			if (tag.group_name) {
+				data.group_name = tag.group_name
+			}
+			if (tag.group_id) {
+				data.group_id = tag.group_id
+			}
+			this.$http2.post(`/tag/add`, data).then((r) => {
+				this.loadTags(this.taggingObj)
+				this.loadTagGroups()
+			})
 		},
 		removeTag(tag_id) {
 			this.$confirm('确定要删除吗？').then((r) => {
@@ -203,7 +212,7 @@ export default {
 		},
 		save(form) {
 			form.status = 'valid'
-			this.$api2.bean.update(
+			this.$api.bean.update(
 				form,
 				(r) => {
 					this.load()
@@ -230,7 +239,7 @@ export default {
 			}
 		},
 		saveStockLog(log) {
-			this.$api2.bean.updateStockLog(
+			this.$api.bean.updateStockLog(
 				log,
 				(r) => {
 					this.load()
@@ -245,7 +254,7 @@ export default {
 			this.goTo(`/bean/price/?beanid=${bean.id}`)
 		},
 		saveBatch(form) {
-			this.$api2.bean.updateBatch(
+			this.$api.bean.updateBatch(
 				form,
 				(r) => {
 					this.load()
@@ -258,14 +267,10 @@ export default {
 		},
 		del(item) {
 			this.$confirm('确定要删除吗？').then((r) => {
-				if (r === true) {
-					let id = item.id
-					this.$api.roast.remove(id, (data) => {
-						const index = this.objects.findIndex((e) => e.ID === id)
-						if (index >= 0) this.objects.splice(index, 1)
+				if (r) {
+					this.$api.bean.remove(item.id, (data) => {
+						this.load()
 					})
-				} else {
-					alert(r)
 				}
 			})
 		},

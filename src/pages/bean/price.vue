@@ -86,12 +86,12 @@ export default {
 	watch: {},
 	methods: {
 		load() {
-			this.$api2.price.search({ bean_id: this.beanid }, (r) => {
+			this.$api.price.search({ bean_id: this.beanid }, (r) => {
 				this.prices = r.objects
 			})
 		},
 		loadBean() {
-			this.$api2.bean.getById(this.beanid, (r) => {
+			this.$api.bean.getById(this.beanid, (r) => {
 				this.bean = r
 			})
 		},
@@ -109,7 +109,7 @@ export default {
 			this.formDlg = true
 		},
 		save() {
-			this.$api2.price.update(
+			this.$api.price.update(
 				this.form,
 				(r) => {
 					this.load()
@@ -121,7 +121,7 @@ export default {
 			)
 		},
 		generate() {
-			this.$api2.bean.generatePrice(this.beanid, (r) => {
+			this.$api.bean.generatePrice(this.beanid, (r) => {
 				this.load()
 			})
 		},
@@ -133,8 +133,6 @@ export default {
 						const index = this.objects.findIndex((e) => e.ID === id)
 						if (index >= 0) this.objects.splice(index, 1)
 					})
-				} else {
-					alert(r)
 				}
 			})
 		}
