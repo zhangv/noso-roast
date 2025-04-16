@@ -25,9 +25,10 @@
 			</v-card-title>
 			<v-card-text>
 				标签组：
-				<v-card v-for="group in taggingGroups" :key="group.id">
+				<v-card v-for="group in taggingGroups" :key="group.id" class="mb-1" variant="outlined">
 					<v-card-title>
-						{{ group.name }} -
+						<span @click="this.addTagForm.group_name = group.name">{{ group.name }}</span>
+						-
 						<template v-for="tag in group.tags" :key="tag.id">
 							<tempalte v-if="tagNames.includes(tag.name)">
 								<v-chip class="mr-0" variant="outlined">
@@ -52,7 +53,7 @@
 			<v-card-text class="d-flex align-center">
 				<v-text-field v-model="addTagForm.name" label="标签" style="width: 10rem" class="mr-2" />
 				<v-text-field v-model="addTagForm.group_name" label="标签组" style="width: 10rem" class="mr-2" />
-				<v-btn @click="addTag">添加标签</v-btn>
+				<v-btn @click="addTag(null)">添加标签</v-btn>
 			</v-card-text>
 			<v-card-actions>
 				<v-btn color="primary" @click="taggingDlg = false">关闭</v-btn>
@@ -166,6 +167,9 @@ export default {
 			this.addTag(this.addTagForm)
 		},
 		addTag(tag) {
+			if (!tag) {
+				tag = { name: this.addTagForm.name, group_name: this.addTagForm.group_name }
+			}
 			let data = {
 				name: tag.name,
 				target_id: this.taggingObj.id + '',
