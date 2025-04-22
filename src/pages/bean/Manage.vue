@@ -19,42 +19,7 @@
 	</BeanList>
 	<v-dialog v-model="taggingDlg">
 		<v-card>
-			<v-card-title>
-				标签
-				<v-chip v-for="tag in tags" :key="tag.id">{{ tag.name }}</v-chip>
-			</v-card-title>
-			<v-card-text>
-				标签组：
-				<v-card v-for="group in taggingGroups" :key="group.id" class="mb-1" variant="outlined">
-					<v-card-title>
-						<span @click="this.addTagForm.group_name = group.name">{{ group.name }}</span>
-						-
-						<template v-for="tag in group.tags" :key="tag.id">
-							<tempalte v-if="tagNames.includes(tag.name)">
-								<v-chip class="mr-0" variant="outlined">
-									{{ tag.name }}
-									<v-icon class="mr-1" size="small" color="error" @click="removeTag(tag.id)">
-										$close
-									</v-icon>
-								</v-chip>
-							</tempalte>
-							<template v-else>
-								<v-chip>
-									{{ tag.name }}
-									<v-icon @click="addTag({ name: tag.name, group_name: group.name })" color="primary">
-										$plus
-									</v-icon>
-								</v-chip>
-							</template>
-						</template>
-					</v-card-title>
-				</v-card>
-			</v-card-text>
-			<v-card-text class="d-flex align-center">
-				<v-text-field v-model="addTagForm.name" label="标签" style="width: 10rem" class="mr-2" />
-				<v-text-field v-model="addTagForm.group_name" label="标签组" style="width: 10rem" class="mr-2" />
-				<v-btn @click="addTag(null)">添加标签</v-btn>
-			</v-card-text>
+			<tagger :id="taggingObj.id" type="bean"></tagger>
 			<v-card-actions>
 				<v-btn color="primary" @click="taggingDlg = false">关闭</v-btn>
 			</v-card-actions>
@@ -91,14 +56,14 @@
 </template>
 
 <script>
-import { BeanForm, BeanList, BeanBatchForm, BeanStockLogForm } from '@ui'
+import { BeanForm, BeanList, BeanBatchForm, BeanStockLogForm, Tagger } from '@ui'
 import { format } from 'date-fns'
 import { clone } from 'lodash-es'
 import qs from 'qs'
 
 export default {
 	name: 'bean-manage',
-	components: { BeanForm, BeanList, BeanBatchForm, BeanStockLogForm },
+	components: { BeanForm, BeanList, BeanBatchForm, BeanStockLogForm, Tagger },
 	data() {
 		const qps = qs.parse(location.search, { ignoreQueryPrefix: true })
 		return {
@@ -131,80 +96,16 @@ export default {
 			tags: []
 		}
 	},
-	mounted() {
-		this.loadTagGroups()
-	},
-	computed: {
-		tagsByGroup() {
-			let map = {}
-			this.tags.forEach((tag) => {
-				if (!map[tag.group_id]) map[tag.group_id] = []
-				map[tag.group_id + ''].push(tag)
-			})
-			return map
-		},
-		tagNames() {
-			let names = []
-			this.tags.forEach((tag) => {
-				if (!names.includes(tag.name)) names.push(tag.name)
-			})
-			return names
-		}
-	},
+	mounted() {},
+	computed: {},
 	watch: {},
 	methods: {
-		loadTagGroups() {
-			this.$http2.get(`/tag/getGroups`, { params: { type: 'bean' } }).then((r) => {
-				this.taggingGroups = r
-			})
-		},
-		loadTags(obj) {
-			this.$http2.get(`/tag/getTags`, { params: { type: 'bean', id: obj.id } }).then((r) => {
-				this.tags = r
-			})
-		},
-		addTagByForm() {
-			this.addTag(this.addTagForm)
-		},
-		addTag(tag) {
-			if (!tag) {
-				tag = { name: this.addTagForm.name, group_name: this.addTagForm.group_name }
-			}
-			let data = {
-				name: tag.name,
-				target_id: this.taggingObj.id + '',
-				target_type: 'bean'
-			}
-			if (tag.group_name) {
-				data.group_name = tag.group_name
-			}
-			if (tag.group_id) {
-				data.group_id = tag.group_id
-			}
-			this.$http2.post(`/tag/add`, data).then((r) => {
-				this.loadTags(this.taggingObj)
-				this.loadTagGroups()
-			})
-		},
-		removeTag(tag_id) {
-			this.$confirm('确定要删除吗？').then((r) => {
-				if (r === true) {
-					this.$http2
-						.get(`/tag/remove`, { params: { target_type: 'bean', target_id: this.taggingObj.id, tag_id } })
-						.then((r) => {
-							this.loadTags(this.taggingObj)
-							this.loadTagGroups()
-						})
-				}
-			})
-		},
 		load() {
 			this.$refs.thelist.load()
 		},
 		tagging(obj) {
 			this.taggingDlg = true
 			this.taggingObj = obj
-			this.loadTags(obj)
 		},
 		add() {
 			this.form = {}

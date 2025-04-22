@@ -1,17 +1,18 @@
 // Plugins
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import Fonts from 'unplugin-fonts/vite'
 // import Layouts from 'vite-plugin-vue-layouts'
+import * as Sentry from '@sentry/cli'
 import Vue from '@vitejs/plugin-vue'
+import { fileURLToPath, URL } from 'node:url'
+import { visualizer } from 'rollup-plugin-visualizer'
+import AutoImport from 'unplugin-auto-import/vite'
+import Fonts from 'unplugin-fonts/vite'
+import Components from 'unplugin-vue-components/vite'
 import VueRouter from 'unplugin-vue-router/vite'
-import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
-
 // Utilities
 import { defineConfig } from 'vite'
-import { fileURLToPath, URL } from 'node:url'
-import { visualizer } from 'rollup-plugin-visualizer';
-import { mdi } from 'vuetify/iconsets/mdi'
+import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+
+const release = `nosoadmin@${process.env.npm_package_version}`
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -19,7 +20,7 @@ export default defineConfig({
 		visualizer({
 			open: true, // 打包完成后自动打开分析报告
 			filename: 'stats.html' // 生成的报告文件名
-		  }),
+		}),
 		VueRouter(),
 		// Layouts(),
 		Vue({
@@ -51,7 +52,7 @@ export default defineConfig({
 			vueTemplate: true
 		})
 	],
-	define: { 'process.env': {} },
+	define: { 'process.env': {}, __SENTRY_RELEASE__: JSON.stringify(release) },
 	resolve: {
 		alias: {
 			'@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -65,22 +66,23 @@ export default defineConfig({
 		port: 3000
 	},
 	build: {
+		sourcemap: true,
 		rollupOptions: {
-		  output: {
-			manualChunks: {
-			  // 将 Vue 和 Vue Router 分离到单独的 chunk 中
-			  vue: ['vue', 'vue-router','vue-i18n','pinia'],
-			  // 将其他第三方库分离
-			  vendor: ['axios', 'lodash-es'],
-			  echart: ['echarts'],
-			  html5qrcode: ['html5-qrcode'],
-			  html2canvas: ['html2canvas'],
-			  vuetify: ['vuetify/components'],
-			  mdi: ['@mdi/js'],
-			  validator: ['validator'],
-			  appui:['@ui']
+			output: {
+				manualChunks: {
+					// 将 Vue 和 Vue Router 分离到单独的 chunk 中
+					vue: ['vue', 'vue-router', 'vue-i18n', 'pinia'],
+					// 将其他第三方库分离
+					vendor: ['axios', 'lodash-es'],
+					echart: ['echarts'],
+					html5qrcode: ['html5-qrcode'],
+					html2canvas: ['html2canvas'],
+					vuetify: ['vuetify/components'],
+					mdi: ['@mdi/js'],
+					validator: ['validator'],
+					appui: ['@ui']
+				}
 			}
-		  }
 		}
-	  }
+	}
 })

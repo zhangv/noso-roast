@@ -5,14 +5,9 @@ const soul = {
 	salt: '', //加密盐
 	checkForUpdates: 1, //版本检查间隔时间（分钟），false - 不检查
 	//用于跳转到前端详情页时（如商品、券）
-	frontEndHost:
-		process.env.NODE_ENV === 'production'
-			? 'https://nosoadmin.hahacking.com'
-			: 'http://localhost:3000',
+	frontEndHost: process.env.NODE_ENV === 'production' ? 'https://nosoadmin.hahacking.com' : 'http://localhost:3000',
 	backEndHost:
-		process.env.NODE_ENV === 'production'
-			? 'https://nosoapi.hahacking.com'
-			: 'http://devnosoapi.hahacking.com',
+		process.env.NODE_ENV === 'production' ? 'https://nosoapi.hahacking.com' : 'http://devnosoapi.hahacking.com',
 	backEndHost2:
 		process.env.NODE_ENV === 'production'
 			? 'https://nosoapi2.hahacking.com' // TODO: 临时
