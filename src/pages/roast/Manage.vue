@@ -8,15 +8,14 @@
 		<RoastList ref="thelist" show-select :single-select="false" :init-query.sync="query" :headers="headers">
 			<template v-slot:batchActions="{ selected }"></template>
 			<template v-slot:actions="{ item }">
-				<!-- <v-icon class="mr-2" @click="detail(item)">$info</v-icon> -->
 				<v-icon class="mr-2" @click="profile(item)">$edit</v-icon>
-				<v-icon class="mr-2" @click="del(item)" color="error">$delete</v-icon>
 				<template v-if="item.status === 'start'">
 					<v-btn classs="mr-2" @click="complete(item)">完成</v-btn>
 					<v-btn classs="mr-2" @click="cancel(item)">取消</v-btn>
+					<v-icon class="mr-2" @click="del(item)" color="error">$delete</v-icon>
 				</template>
 				<template v-if="item.status === 'complete'">
-					<v-btn classs="mr-2" @click="cupping(item)">杯测WIP</v-btn>
+					<v-btn classs="mr-2" @click="cupping(item)">杯测</v-btn>
 				</template>
 			</template>
 		</RoastList>
@@ -63,6 +62,18 @@
 				</v-card-text>
 			</v-card>
 		</v-dialog>
+		<v-dialog v-model="cuppingDlg">
+			<v-card>
+				<v-card-title>杯测</v-card-title>
+				<v-card-text>
+					<cupping-form v-model:value="cuppingObj" :errors="cuppingErrors">
+						<template #actions="{ object }">
+							<v-btn @click="confirmCupping(object)">确认</v-btn>
+						</template>
+					</cupping-form>
+				</v-card-text>
+			</v-card>
+		</v-dialog>
 	</div>
 </template>
 
@@ -72,7 +83,8 @@ import {
 	RoastList,
 	RoastStartForm as StartForm,
 	RoastCompleteForm as CompleteForm,
-	RoastProfileForm as ProfileForm
+	RoastProfileForm as ProfileForm,
+	CuppingForm
 } from '@ui'
 import qs from 'qs'
 
@@ -82,7 +94,8 @@ export default {
 		BeanSelector,
 		StartForm,
 		CompleteForm,
-		ProfileForm
+		ProfileForm,
+		CuppingForm
 	},
 	data() {
 		const qps = qs.parse(location.search, { ignoreQueryPrefix: true })
@@ -123,7 +136,9 @@ export default {
 					sortable: false,
 					value: 'action'
 				}
-			]
+			],
+			cuppingDlg: false,
+			cuppingObj: {}
 		}
 	},
 	mounted() {
@@ -132,6 +147,23 @@ export default {
 	computed: {},
 	watch: {},
 	methods: {
+		cupping(roast) {
+			this.cuppingDlg = true
+			this.cuppingObj = {
+				roast_id: roast.id,
+				date: roast.date,
+				location: '',
+				samples: [
+					{
+						bean_id: roast.bean_id,
+						beanbatch_id: roast.bean_batch_id,
+						bean_qty: roast.bean_qty,
+						grind_size: roast.grind_size,
+						water_temp: roast.water_temp
+					}
+				]
+			}
+		},
 		start() {
 			this.startDlg = true
 			this.startForm = {
