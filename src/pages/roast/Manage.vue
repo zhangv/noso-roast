@@ -127,18 +127,18 @@ export default {
 				{ title: '名称', align: 'left', sortable: true, value: 'name' },
 				{ title: '生豆', value: 'bean_id' },
 				{ title: '重量', sortable: true, value: 'inqty' },
-				// { title: '熟重', sortable: true, value: 'outqty' },
 				{ title: '开始时间', sortable: true, value: 'starttime' },
 				{ title: '状态', sortable: true, value: 'status' },
 				{
-					text: '操作',
+					title: '',
 					align: 'left',
 					sortable: false,
 					value: 'action'
 				}
 			],
 			cuppingDlg: false,
-			cuppingObj: {}
+			cuppingObj: {},
+			cuppingErrors: {}
 		}
 	},
 	mounted() {
@@ -152,14 +152,22 @@ export default {
 			this.cuppingObj = {
 				roast_id: roast.id,
 				date: roast.date,
-				location: '',
+				location: '烘焙室',
+				method: 'standard',
+				status: 'valid',
+				description: '烘焙完成',
 				samples: [
 					{
 						bean_id: roast.bean_id,
+						bean: roast.bean,
 						beanbatch_id: roast.bean_batch_id,
-						bean_qty: roast.bean_qty,
-						grind_size: roast.grind_size,
-						water_temp: roast.water_temp
+						beanbatch: roast.beanbatch,
+						beanqty: 10,
+						grindsize: '?',
+						watertemp: 92,
+						extractionyield: '?',
+						method: 'standard',
+						triangle: '?'
 					}
 				]
 			}

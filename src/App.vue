@@ -1,5 +1,5 @@
 <template>
-	<v-app>
+	<v-app style="min-width: 370px !important">
 		<login-dialog />
 		<snack-bar position="fixed" rounded class="safe-fixed-top d-flex justify-space-between" />
 		<router-view />
