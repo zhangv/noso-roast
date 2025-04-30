@@ -5,6 +5,7 @@ import api from './api'
 import api2 from './api/api2'
 import http from './api/http'
 import http2 from './api/http2'
+import debounce from './plugins/debounce'
 import i18n from './plugins/i18n'
 import vuetify from './plugins/vuetify'
 import soul from './soul'
@@ -25,6 +26,7 @@ app.use(vuetify)
 app.use(pinia)
 app.use(router)
 app.use(i18n)
+app.use(debounce)
 
 app.config.globalProperties.$api = api2
 

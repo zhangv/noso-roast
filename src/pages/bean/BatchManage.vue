@@ -16,15 +16,17 @@
 		</v-card-title>
 		<v-card-text>
 			<v-row>
-				<v-col cols="12" sm="6">
+				<v-col cols="12" xl="6">
 					<BeanBatchList :bean-id="beanid" ref="thelist" show-select :single-select="false">
 						<template v-slot:batchActions="{ selected }"></template>
 						<template v-slot:actions="{ item }">
-							<v-btn small @click="undo(item)">撤销</v-btn>
+							<template v-if="item.status == 'valid'">
+								<v-btn small @click="undo(item)">撤销</v-btn>
+							</template>
 						</template>
 					</BeanBatchList>
 				</v-col>
-				<v-col cols="12" sm="6">
+				<v-col cols="12" xl="6">
 					<BeanStockLogList title="库存变动历史" :bean-id="beanid" ref="stocklist" :single-select="false">
 						<template v-slot:batchActions="{ selected }"></template>
 						<template v-slot:actions="{ item }">

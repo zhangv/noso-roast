@@ -24,7 +24,7 @@
 				<start-form v-model:value="startForm" :errors="startErrors">
 					<template #actions="{ object }">
 						<v-card-actions>
-							<v-btn color="primary" large @click="confirmStart(object)">开始</v-btn>
+							<v-btn v-debounce color="primary" large @click="confirmStart(object)">开始</v-btn>
 						</v-card-actions>
 					</template>
 				</start-form>
@@ -35,7 +35,7 @@
 				<profile-form v-model:roastId="profileId" :errors="profileErrors">
 					<template #actions="{ object }">
 						<v-card-actions>
-							<v-btn color="primary" large @click="confirmProfile(object)">确认保存</v-btn>
+							<v-btn v-debounce color="primary" large @click="confirmProfile(object)">确认保存</v-btn>
 						</v-card-actions>
 					</template>
 				</profile-form>
@@ -47,7 +47,7 @@
 				<v-card-text>
 					<complete-form v-model:value="completeForm" :errors="completeErrors">
 						<template #actions="{ object }">
-							<v-btn @click="confirmComplete(object)">完成</v-btn>
+							<v-btn v-debounce @click="confirmComplete(object)">完成</v-btn>
 						</template>
 					</complete-form>
 				</v-card-text>
@@ -68,7 +68,7 @@
 				<v-card-text>
 					<cupping-form v-model:value="cuppingObj" :errors="cuppingErrors">
 						<template #actions="{ object }">
-							<v-btn @click="confirmCupping(object)">确认</v-btn>
+							<v-btn v-debounce @click="confirmCupping(object)">确认</v-btn>
 						</template>
 					</cupping-form>
 				</v-card-text>
@@ -186,7 +186,7 @@ export default {
 					this.startDlg = false
 				},
 				(e) => {
-					this.startErrors = e.message
+					this.startErrors = e.data
 				}
 			)
 		},
@@ -218,7 +218,7 @@ export default {
 					this.load()
 				},
 				(e) => {
-					this.profileErrors = e.message
+					this.profileErrors = e.data
 				}
 			)
 		},
@@ -236,7 +236,7 @@ export default {
 					this.completeDlg = false
 				},
 				(e) => {
-					this.completeErrors = e.message
+					this.completeErrors = e.data
 				}
 			)
 		},
