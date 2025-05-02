@@ -10,6 +10,7 @@ import Components from 'unplugin-vue-components/vite'
 import VueRouter from 'unplugin-vue-router/vite'
 // Utilities
 import { defineConfig } from 'vite'
+import { VitePWA } from 'vite-plugin-pwa'
 import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 
 const release = `nosoadmin@${process.env.npm_package_version}`
@@ -17,6 +18,33 @@ const release = `nosoadmin@${process.env.npm_package_version}`
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
+		VitePWA({
+			registerType: 'autoUpdate',
+			includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
+			manifest: {
+				registerType: 'prompt', // 很重要，不然 dev 环境不会自己 prompt
+				strategies: 'generateSW',
+				includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
+				manifest: {
+					name: 'NoSo Admin',
+					short_name: 'NoSo Admin',
+					description: 'NoSo Admin',
+					theme_color: '#ffffff',
+					icons: [
+						{
+							src: 'favicon.svg',
+							sizes: '192x192',
+							type: 'image/svg+xml'
+						},
+						{
+							src: 'favicon.svg',
+							sizes: '512x512',
+							type: 'image/svg+xml'
+						}
+					]
+				}
+			}
+		}),
 		visualizer({
 			open: true, // 打包完成后自动打开分析报告
 			filename: 'stats.html' // 生成的报告文件名

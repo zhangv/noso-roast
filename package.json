@@ -1,6 +1,6 @@
 {
 	"name": "noso-admin",
-	"version": "0.0.37",
+	"version": "0.0.38",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
@@ -10,8 +10,10 @@
 	},
 	"dependencies": {
 		"core-js": "^3.37.1",
-		"noso-utils": "^1.0.0",
-		"noso-ui": "^1.0.0"
+		"noso-ui": "^1.0.0",
+		"noso-utils": "^1.0.0"
 	},
-	"devDependencies": {}
+	"devDependencies": {
+		"speed-measure-vite-plugin": "^2.0.0"
+	}
 }

@@ -28,6 +28,7 @@ declare module 'vue-router/auto-routes' {
     '/bean/stock': RouteRecordInfo<'/bean/stock', '/bean/stock', Record<never, never>, Record<never, never>>,
     '/cupping/detail': RouteRecordInfo<'/cupping/detail', '/cupping/detail', Record<never, never>, Record<never, never>>,
     '/cupping/manage': RouteRecordInfo<'/cupping/manage', '/cupping/manage', Record<never, never>, Record<never, never>>,
+    '/cupping/sample': RouteRecordInfo<'/cupping/sample', '/cupping/sample', Record<never, never>, Record<never, never>>,
     '/order/manage': RouteRecordInfo<'/order/manage', '/order/manage', Record<never, never>, Record<never, never>>,
     '/price/levelmanage': RouteRecordInfo<'/price/levelmanage', '/price/levelmanage', Record<never, never>, Record<never, never>>,
     '/roast/detail': RouteRecordInfo<'/roast/detail', '/roast/detail', Record<never, never>, Record<never, never>>,

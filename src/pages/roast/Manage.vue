@@ -172,32 +172,15 @@ export default {
 				]
 			}
 		},
-		start() {
-			this.startDlg = true
-			this.startForm = {
-				date: new Date().toISOString().slice(0, 10)
-			}
-		},
-		confirmStart(form) {
-			this.$api.roast.start(
-				form,
-				(r) => {
-					this.load()
-					this.startDlg = false
-				},
-				(e) => {
-					this.startErrors = e.data
-				}
-			)
+		confirmCupping(form) {
+			this.$api.cupping.update(form, (r) => {
+				this.load()
+				this.cuppingDlg = false
+			})
 		},
 
 		load() {
 			this.$refs.thelist.load()
-		},
-		save(form) {
-			this.$api.roast.update(form, (r) => {
-				alert('saved')
-			})
 		},
 		detail(roast) {
 			this.detailDlg = true
@@ -205,61 +188,12 @@ export default {
 				this.detailObj = r
 			})
 		},
-		profile(item) {
-			this.profileDlg = true
-			this.profileId = item.id
-		},
-		confirmProfile(form) {
-			form.roast_id = this.profileId
-			this.$api.roast.updateProfile(
-				form,
-				(r) => {
-					this.profileDlg = false
-					this.load()
-				},
-				(e) => {
-					this.profileErrors = e.data
-				}
-			)
-		},
-		complete(roast) {
-			this.completeDlg = true
-			this.completeForm = {
-				id: roast.id
-			}
-		},
-		confirmComplete(form) {
-			this.$api.roast.complete(
-				form,
-				(r) => {
-					this.load()
-					this.completeDlg = false
-				},
-				(e) => {
-					this.completeErrors = e.data
-				}
-			)
-		},
-		cancel(roast) {
-			this.$confirm('确定要取消吗？').then((r) => {
-				if (r) {
-					this.$api.roast.cancel(
-						roast.id,
-						(r) => {
-							this.load()
-						},
-						(e) => {
-							alert(e.message)
-						}
-					)
-				}
-			})
-		},
+
 		del(item) {
 			this.$confirm('确定要删除吗？').then((r) => {
 				if (r === true) {
 					let id = item.id
-					this.$http.get(`/roast/delete/` + id).then((data) => {
+					this.$http.get(`/cupping/delete/` + id).then((data) => {
 						this.load()
 					})
 				}
