@@ -1,10 +1,13 @@
 <template>
 	<v-card>
-		<v-card-title>样本详情</v-card-title>
+		<v-card-title>
+			样本详情
+			<span class="text-h6">{{ scoreSummary.count }}次评分 总平均分 {{ scoreSummary.total }}</span>
+			<v-btn color="primary" @click="scoreDlg = true">评分</v-btn>
+		</v-card-title>
 		<v-card-subtitle>
 			<v-row>
 				<v-col cols="6">
-					<span class="text-h6">{{ scoreSummary.count }}次评分 总平均分 {{ scoreSummary.total }}</span>
 					<v-chart
 						v-if="scoreSummary"
 						:option="getRadarData(scoreSummary)"
@@ -12,29 +15,31 @@
 						style="height: 300px"
 					/>
 				</v-col>
-				<v-col cols="6" class="d-flex flex-column">
+				<v-col cols="6" class="d-flex flex-column justify-center">
 					<span class="text-h6">豆子：{{ sample.bean?.name }}</span>
 					<span class="text-h6">备注：{{ sample.memo }}</span>
 					<span class="text-h6">豆量：{{ sample.beanqty }}g</span>
 					<span class="text-h6">杯测方法：{{ sample.method }}</span>
 					<span class="text-h6">水温：{{ sample.watertemp }}度</span>
-					<span class="text-h6">萃取率{{ sample.extractionyield }}g</span>
+					<span class="text-h6">萃取率{{ sample.extractionyield }}</span>
 					<span class="text-h6">研磨度：{{ sample.grindsize }}</span>
 				</v-col>
 			</v-row>
 		</v-card-subtitle>
 		<v-card-text>
 			<v-row>
-				<v-col cols="12" sm="6" md="4">
-					<v-card v-for="score in scores" :key="score.id">
-						<v-card-title>
-							<span class="text-h6">{{ score.created_at }}</span>
-						</v-card-title>
+				<v-col cols="12">
+					<v-card
+						v-for="score in scores"
+						:key="score.id"
+						class="d-inline-block mr-2"
+						style="max-width: 300px"
+					>
+						<v-card-title></v-card-title>
 						<v-card-subtitle>
-							<span class="text-h6">
-								<span v-if="score.user_id && score.user">用户：{{ score.user.nickname }}</span>
-								{{ score.notes }}
-							</span>
+							{{ score.created_at }}
+							<span v-if="score.user_id && score.user">用户：{{ score.user.nickname }}</span>
+							{{ score.notes }}
 						</v-card-subtitle>
 						<v-card-text>
 							<v-chart :option="getRadarData(score)" autoresize style="height: 300px" />
@@ -44,11 +49,13 @@
 			</v-row>
 		</v-card-text>
 	</v-card>
-	<CuppingScoreForm :sample="sample" @submit="submitScore">
-		<template #actions="{ object }">
-			<v-btn color="primary" @click="submitScore(object)">提交评分</v-btn>
-		</template>
-	</CuppingScoreForm>
+	<v-dialog v-model="scoreDlg">
+		<CuppingScoreForm :sample="sample">
+			<template #actions="{ object }">
+				<v-btn color="primary" @click="submitScore(object)">提交评分</v-btn>
+			</template>
+		</CuppingScoreForm>
+	</v-dialog>
 </template>
 <script>
 import { CuppingScoreForm } from '@ui'
@@ -90,7 +97,8 @@ export default {
 				{ name: '整体', field: 'overall', max: 10 }
 			],
 			chartOptions: {},
-			scoreSummary: {}
+			scoreSummary: {},
+			scoreDlg: false
 		}
 	},
 	mounted() {
@@ -153,6 +161,7 @@ export default {
 			}
 			this.$api.cupping.updateScore(form, (r) => {
 				this.loadScores(this.sample.id)
+				this.scoreDlg = false
 			})
 		}
 	}

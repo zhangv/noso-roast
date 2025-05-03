@@ -17,11 +17,12 @@
 								<v-card-subtitle class="d-flex flex-column">
 									<span class="">{{ sample.beanqty }}g {{ sample.method }}</span>
 									<span class="xtext-h6">水温：{{ sample.watertemp }}度</span>
-									<span class="xtext-h6">萃取率{{ sample.extractionyield }}g</span>
+									<span class="xtext-h6">萃取率{{ sample.extractionyield }}</span>
 									<span class="xtext-h6">研磨度：{{ sample.grindsize }}</span>
 								</v-card-subtitle>
 								<v-card-actions>
 									<v-btn color="primary" @click="sampleDetail(sample.id)">评分</v-btn>
+									<v-btn @click="editSample(sample)">编辑</v-btn>
 								</v-card-actions>
 							</v-card>
 						</v-col>
@@ -64,6 +65,9 @@ export default {
 		},
 		sampleDetail(sample_id) {
 			this.goTo(`/cupping/sample?id=${sample_id}`)
+		},
+		editSample(sample) {
+			this.sampleId = sample.id
 		}
 	}
 }

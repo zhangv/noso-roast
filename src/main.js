@@ -2,9 +2,7 @@
 // Components
 import App from './App.vue'
 import api from './api'
-import api2 from './api/api2'
 import http from './api/http'
-import http2 from './api/http2'
 import debounce from './plugins/debounce'
 import i18n from './plugins/i18n'
 import vuetify from './plugins/vuetify'
@@ -28,13 +26,9 @@ app.use(router)
 app.use(i18n)
 app.use(debounce)
 
-app.config.globalProperties.$api = api2
+app.config.globalProperties.$api = api
 
-app.config.globalProperties.$http = http2
-
-app.config.globalProperties.$api2 = api2
-
-app.config.globalProperties.$http2 = http2
+app.config.globalProperties.$http = http
 
 app.config.globalProperties.$soul = soul
 
