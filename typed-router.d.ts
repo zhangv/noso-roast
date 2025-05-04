@@ -33,6 +33,7 @@ declare module 'vue-router/auto-routes' {
     '/price/levelmanage': RouteRecordInfo<'/price/levelmanage', '/price/levelmanage', Record<never, never>, Record<never, never>>,
     '/roast/detail': RouteRecordInfo<'/roast/detail', '/roast/detail', Record<never, never>, Record<never, never>>,
     '/roast/manage': RouteRecordInfo<'/roast/manage', '/roast/manage', Record<never, never>, Record<never, never>>,
+    '/supplier/manage': RouteRecordInfo<'/supplier/manage', '/supplier/manage', Record<never, never>, Record<never, never>>,
     '/user/ModifyPassword': RouteRecordInfo<'/user/ModifyPassword', '/user/ModifyPassword', Record<never, never>, Record<never, never>>,
     '/user/Profile': RouteRecordInfo<'/user/Profile', '/user/Profile', Record<never, never>, Record<never, never>>,
     '/user/Register': RouteRecordInfo<'/user/Register', '/user/Register', Record<never, never>, Record<never, never>>,

@@ -70,8 +70,6 @@ export default {
 			this.$refs.thelist.load()
 		},
 		samples(item) {
-			// this.samplesDlg = true
-			// this.samplesObj = item
 			this.goTo(`/cupping/detail?id=${item.id}`)
 		},
 		add() {

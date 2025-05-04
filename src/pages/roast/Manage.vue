@@ -172,6 +172,23 @@ export default {
 				]
 			}
 		},
+		start() {
+			this.startDlg = true
+			this.startForm = {}
+			this.startErrors = {}
+		},
+		confirmStart(form) {
+			this.$api.roast.start(
+				form,
+				(r) => {
+					this.load()
+					this.startDlg = false
+				},
+				(err) => {
+					this.startErrors = err.data
+				}
+			)
+		},
 		confirmCupping(form) {
 			this.$api.cupping.update(form, (r) => {
 				this.load()
@@ -186,6 +203,56 @@ export default {
 			this.detailDlg = true
 			this.$api.roast.getById(roast.id, (r) => {
 				this.detailObj = r
+			})
+		},
+		profile(item) {
+			this.profileDlg = true
+			this.profileId = item.id
+		},
+		confirmProfile(form) {
+			form.roast_id = this.profileId
+			this.$api.roast.updateProfile(
+				form,
+				(r) => {
+					this.profileDlg = false
+					this.load()
+				},
+				(e) => {
+					this.profileErrors = e.message
+				}
+			)
+		},
+		complete(roast) {
+			this.completeDlg = true
+			this.completeForm = {
+				id: roast.id
+			}
+		},
+		confirmComplete(form) {
+			this.$api.roast.complete(
+				form,
+				(r) => {
+					this.load()
+					this.completeDlg = false
+				},
+				(e) => {
+					this.completeErrors = e.message
+				}
+			)
+		},
+		cancel(roast) {
+			this.$confirm('确定要取消吗？').then((r) => {
+				if (r) {
+					this.$api.roast.cancel(
+						roast.id,
+						(r) => {
+							this.load()
+						},
+						(e) => {
+							alert(e.message)
+						}
+					)
+				}
 			})
 		},
 

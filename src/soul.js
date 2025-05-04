@@ -52,6 +52,11 @@ const soul = {
 					title: '账户',
 					icon: 'mdi-wallet',
 					to: '/account/manage'
+				},
+				{
+					title: '供应商',
+					icon: 'mdi-store',
+					to: '/supplier/manage'
 				}
 			]
 		},

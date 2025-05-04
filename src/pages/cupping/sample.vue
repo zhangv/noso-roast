@@ -4,6 +4,7 @@
 			样本详情
 			<span class="text-h6">{{ scoreSummary.count }}次评分 总平均分 {{ scoreSummary.total }}</span>
 			<v-btn color="primary" @click="scoreDlg = true">评分</v-btn>
+			<a :href="`/cupping/detail?id=${sample.cupping_id}`">杯测</a>
 		</v-card-title>
 		<v-card-subtitle>
 			<v-row>
