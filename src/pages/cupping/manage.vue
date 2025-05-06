@@ -10,7 +10,7 @@
 		<template v-slot:actions="{ item }">
 			<v-icon class="mr-2 mb-1" @click="edit(item)">$edit</v-icon>
 			<v-icon class="mr-2 mb-1" @click="del(item)" color="error">$delete</v-icon>
-			<v-btn @click="samples(item)">样本</v-btn>
+			<v-btn @click="samples(item)">详情</v-btn>
 		</template>
 	</CuppingList>
 	<v-dialog v-model="samplesDlg">

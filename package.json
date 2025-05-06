@@ -1,6 +1,6 @@
 {
 	"name": "noso-admin",
-	"version": "0.0.40",
+	"version": "0.0.41",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",

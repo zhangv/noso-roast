@@ -36,12 +36,12 @@
 	</v-dialog>
 </template>
 <script>
-import { CuppingForm } from '@ui'
+import { CuppingForm, CuppingSampleCard } from '@ui'
 import { clone } from 'lodash-es'
 import qs from 'qs'
 
 export default {
-	components: { CuppingForm },
+	components: { CuppingForm, SampleCard: CuppingSampleCard },
 	props: [],
 	data() {
 		const qps = qs.parse(this.$route.query)
