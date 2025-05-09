@@ -23,10 +23,15 @@
 				<template v-if="item.status == 'created'">
 					<v-btn small class="mr-1 mb-1" @click="edit(item)">修改</v-btn>
 					<v-btn small class="mr-1 mb-1" @click="settle(item)">结算</v-btn>
+					<v-btn small class="mr-1 mb-1" @click="remove(item)">删除</v-btn>
 				</template>
 				<template v-if="item.status == 'placed'">
 					<v-btn small class="mr-1 mb-1" @click="settleById(item)">结算</v-btn>
 					<v-btn small class="mr-1 mb-1" @click="settle(item)">重新结算</v-btn>
+				</template>
+				<template v-if="item.status == 'settled'">
+					<v-btn small class="mr-1 mb-1" @click="afterSettle(item)">结算后更新库存(临时)</v-btn>
+					<v-btn small class="mr-1 mb-1" @click="settleUndo(item)">撤销结算</v-btn>
 				</template>
 			</template>
 		</OrderList>
@@ -148,6 +153,48 @@ export default {
 					this.errors = e.data
 				}
 			)
+		},
+		settleUndo(order) {
+			this.$confirm(`确定要撤销结算吗？账户记录和库存会恢复。`).then((r) => {
+				if (r) {
+					this.$api.order.settleUndo(
+						order.id,
+						(r) => {
+							this.load()
+						},
+						(e) => {
+							this.errors = e.data
+						}
+					)
+				}
+			})
+		},
+		afterSettle(order) {
+			this.$http
+				.post(`/order/afterSettle/${order.id}`)
+				.then((r) => {
+					this.load()
+				})
+				.catch((e) => {
+					this.errors = e.data
+					console.log(e)
+					this.$alert(e.message)
+				})
+		},
+		remove(order) {
+			this.$confirm(`确定要删除订单吗？`).then((r) => {
+				if (r) {
+					this.$api.order.remove(
+						order.id,
+						(r) => {
+							this.load()
+						},
+						(e) => {
+							this.errors = e.data
+						}
+					)
+				}
+			})
 		}
 	}
 }

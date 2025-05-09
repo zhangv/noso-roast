@@ -1,4 +1,6 @@
-import { defineStore } from 'pinia'
+import packageJson from '../../package.json'
+import version from '../../public/version.json'
+import soul from '../soul'
 import {
 	loadTrackId,
 	saveTrackId,
@@ -8,14 +10,11 @@ import {
 	saveLocale,
 	initDeviceInfo
 } from '../utils/cache'
-import packageJson from '../../package.json'
-import browser from '@/utils/browser'
 import API from '@/api/'
-import version from '../../public/version.json'
 import i18n from '@/plugins/i18n'
-
-import soul from '../soul'
+import browser from '@/utils/browser'
 import Utils from '@/utils/utils'
+import { defineStore } from 'pinia'
 
 export const useRootStore = defineStore('root', {
 	state: () => {
@@ -27,7 +26,7 @@ export const useRootStore = defineStore('root', {
 			showDrawer: false,
 			// isWechat: Utils.isWechat(), 可能是bundle的原因，Utils会未初始化
 			showAlert: false,
-			alert: {
+			alertObject: {
 				message: null,
 				timeout: 5000,
 				color: null
@@ -109,18 +108,18 @@ export const useRootStore = defineStore('root', {
 		setShowDrawer(show) {
 			this.showDrawer = show
 		},
-		showAlert(show) {
+		setShowAlert(show) {
 			this.showAlert = show
 		},
 		alert(alert) {
 			if (typeof alert === 'object') {
-				this.alert = {
+				this.alertObject = {
 					message: alert.message,
 					color: alert.color,
 					timeout: alert.timeout ? alert.timeout * 1000 : 5000
 				}
 			} else {
-				this.alert = {
+				this.alertObject = {
 					message: alert,
 					color: 'warning',
 					timeout: alert.timeout ? alert.timeout * 1000 : 5000

@@ -56,6 +56,11 @@ app.config.globalProperties.$confirm = async function (
 		store.setShowConfirm(false)
 	}
 }
+app.config.globalProperties.$alert = function (message) {
+	const store = useRootStore()
+	store.alert(message)
+	store.setShowAlert(true)
+}
 app.config.globalProperties.goTo = function (path) {
 	router.push(path)
 }
