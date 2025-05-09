@@ -144,14 +144,17 @@ export default {
 			}
 		},
 		saveStockLog(log) {
+			//出库
 			this.$api.bean.updateStockLog(
 				log,
 				(r) => {
+					console.log('r', r)
 					this.load()
 					this.outDlg = false
 				},
 				(e) => {
-					this.outErrors = e.message
+					this.$alert(e.message)
+					this.outErrors = e.data
 				}
 			)
 		},
