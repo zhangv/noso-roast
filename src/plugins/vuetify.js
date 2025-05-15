@@ -354,30 +354,30 @@ const vuetify = createVuetify({
 		// 	darken: 2
 		// },
 		themes: {
-			light: {
-				dark: false,
-				colors: {
-					primary: '#91B493', // You can change this to any color you prefer
-					secondary: '#424242',
-					accent: '#82B1FF',
-					error: '#FF5252',
-					info: '#2196F3',
-					success: '#4CAF50',
-					warning: '#FFC107'
-				}
-			},
-			dark: {
-				dark: true,
-				colors: {
-					primary: '#1976D2', // You can change this to any color you prefer
-					secondary: '#424242',
-					accent: '#82B1FF',
-					error: '#FF5252',
-					info: '#2196F3',
-					success: '#4CAF50',
-					warning: '#FFC107'
-				}
-			}
+			// light: {
+			// 	// dark: false,
+			// 	colors: {
+			// 		primary: '#91B493', // You can change this to any color you prefer
+			// 		secondary: '#424242',
+			// 		accent: '#82B1FF',
+			// 		error: '#FF5252',
+			// 		info: '#2196F3',
+			// 		success: '#4CAF50',
+			// 		warning: '#FFC107'
+			// 	}
+			// },
+			// dark: {
+			// 	dark: true,
+			// 	colors: {
+			// 		primary: '#1976D2', // You can change this to any color you prefer
+			// 		secondary: '#424242',
+			// 		accent: '#82B1FF',
+			// 		error: '#FF5252',
+			// 		info: '#2196F3',
+			// 		success: '#4CAF50',
+			// 		warning: '#FFC107'
+			// 	}
+			// }
 		}
 	}
 }) // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides

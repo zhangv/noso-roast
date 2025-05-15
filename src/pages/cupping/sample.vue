@@ -1,5 +1,5 @@
 <template>
-	<v-card>
+	<div>
 		<v-card-title>
 			样本详情
 			<span class="text-h6">{{ scoreSummary.count }}次评分 总平均分 {{ scoreSummary.total }}</span>
@@ -49,7 +49,7 @@
 				</v-col>
 			</v-row>
 		</v-card-text>
-	</v-card>
+	</div>
 	<v-dialog v-model="scoreDlg">
 		<CuppingScoreForm :sample="sample">
 			<template #actions="{ object }">

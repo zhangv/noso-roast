@@ -1,5 +1,5 @@
 <template>
-	<v-card>
+	<div>
 		<v-card-title>
 			<span class="text-h6">杯测</span>
 			{{ cupping.location }}
@@ -12,15 +12,17 @@
 					<v-col cols="12" sm="6" md="4">
 						<sample-card :sample="sample">
 							<template #actions="{ sample }">
-								<v-btn color="primary" @click="sampleDetail(sample.id)">评分</v-btn>
-								<v-btn @click="editSample(sample)">编辑</v-btn>
+								<v-card-actions>
+									<v-btn color="primary" @click="sampleDetail(sample.id)">评分</v-btn>
+									<v-btn @click="editSample(sample)">编辑</v-btn>
+								</v-card-actions>
 							</template>
 						</sample-card>
 					</v-col>
 				</template>
 			</v-row>
 		</v-card-text>
-	</v-card>
+	</div>
 	<v-dialog v-model="formDlg">
 		<v-card>
 			<v-card-title>编辑杯测信息</v-card-title>
@@ -90,7 +92,7 @@ export default {
 			this.goTo(`/cupping/sample?id=${sample_id}`)
 		},
 		editSample(sample) {
-			this.sampleId = sample.id
+			this.goTo(`/cupping/sampleedit?id=${sample.id}`)
 		},
 		editCupping() {
 			this.form = clone(this.cupping)

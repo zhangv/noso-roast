@@ -8,7 +8,7 @@ const soul = {
 	frontEndHost: process.env.NODE_ENV === 'production' ? 'https://noso.hahacking.com' : 'http://localhost:3001',
 	backEndHost:
 		process.env.NODE_ENV === 'production'
-			? 'https://nosoapi2.hahacking.com' // TODO: 临时
+			? 'https://nosoapi.hahacking.com' // TODO: 临时
 			: `http://localhost:8000`,
 	menu: [
 		{
