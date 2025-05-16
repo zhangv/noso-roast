@@ -8,7 +8,7 @@
 			</keep-alive>
 		</router-view>
 	</v-main>
-	<AppFooter />
+	<!-- <AppFooter /> -->
 </template>
 
 <script setup>
