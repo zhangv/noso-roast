@@ -21,7 +21,8 @@
 						<template v-slot:batchActions="{ selected }"></template>
 						<template v-slot:actions="{ item }">
 							<template v-if="item.status == 'valid'">
-								<v-btn small @click="undo(item)">撤销</v-btn>
+								<v-btn small @click="batchlog(item)" class="mr-1">变动日志</v-btn>
+								<v-btn small @click="undo(item)" class="mr-1" color="error">撤销</v-btn>
 							</template>
 						</template>
 					</BeanBatchList>
@@ -30,7 +31,7 @@
 					<BeanStockLogList title="库存变动历史" :bean-id="beanid" ref="stocklist" :single-select="false">
 						<template v-slot:batchActions="{ selected }"></template>
 						<template v-slot:actions="{ item }">
-							<!-- <v-btn small @click="stocklog(item)">库存变动记录</v-btn> -->
+							<v-btn small @click="stocklog(item)">详情</v-btn>
 						</template>
 					</BeanStockLogList>
 				</v-col>
@@ -48,17 +49,24 @@
 				</v-card-text>
 			</v-card>
 		</v-dialog>
+		<v-dialog v-model="batchlogDlg">
+			<bean-batch-log-list :batch-id="batch.id" ref="batchloglist" :single-select="false">
+				<template #actions="{ item }">
+					<!-- <v-btn small @click="batchlog(item)">详情</v-btn> -->
+				</template>
+			</bean-batch-log-list>
+		</v-dialog>
 	</div>
 </template>
 
 <script>
-import { BeanBatchForm, BeanBatchList, BeanStockLogList } from '@ui'
+import { BeanBatchForm, BeanBatchList, BeanStockLogList, BeanBatchLogList } from '@ui'
 import { format } from 'date-fns'
 import { clone } from 'lodash-es'
 import qs from 'qs'
 
 export default {
-	components: { BeanBatchForm, BeanBatchList, BeanStockLogList },
+	components: { BeanBatchForm, BeanBatchList, BeanStockLogList, BeanBatchLogList },
 	props: [],
 	data() {
 		const qps = qs.parse(location.search, { ignoreQueryPrefix: true })
@@ -89,7 +97,9 @@ export default {
 					sortable: false,
 					value: 'action'
 				}
-			]
+			],
+			batchlogDlg: false,
+			batch: null
 		}
 	},
 	mounted() {
@@ -133,6 +143,10 @@ export default {
 		edit(batch) {
 			this.form = clone(batch)
 			this.formDlg = true
+		},
+		batchlog(batch) {
+			this.batch = batch
+			this.batchlogDlg = true
 		},
 		undo(batch) {
 			this.$confirm('确定要撤销吗？').then((r) => {

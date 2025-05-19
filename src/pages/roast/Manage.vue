@@ -225,7 +225,8 @@ export default {
 		complete(roast) {
 			this.completeDlg = true
 			this.completeForm = {
-				id: roast.id
+				id: roast.id,
+				inqty: roast.inqty
 			}
 		},
 		confirmComplete(form) {
@@ -236,7 +237,7 @@ export default {
 					this.completeDlg = false
 				},
 				(e) => {
-					this.completeErrors = e.message
+					this.completeErrors = e.data
 				}
 			)
 		},
