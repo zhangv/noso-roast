@@ -15,6 +15,8 @@
 			<v-btn class="mr-2 mb-1" small @click="price(item)">价格</v-btn>
 			<v-btn class="mr-2 mb-1" small @click="outStock(item)">出库</v-btn>
 			<v-btn class="mr-2 mb-1" small @click="tagging(item)">标签</v-btn>
+			<v-btn class="mr-2 mb-1" small @click="goTo(`/roast/recipemanage/?bean_id=${item.id}`)">烘焙方案</v-btn>
+			<v-btn class="mr-2 mb-1" small @click="goTo(`/cupping/scoremanage/?bean_id=${item.id}`)">杯测评分</v-btn>
 		</template>
 	</BeanList>
 	<v-dialog v-model="taggingDlg">

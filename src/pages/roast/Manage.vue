@@ -4,6 +4,7 @@
 			烘焙管理
 			<v-icon color="primary" @click="start">$plus</v-icon>
 			<v-icon color="info" @click="load">$reload</v-icon>
+			<v-btn text @click="goTo(`recipemanage`)">配方管理</v-btn>
 		</v-card-title>
 		<RoastList ref="thelist" show-select :single-select="false" :init-query.sync="query" :headers="headers">
 			<template v-slot:batchActions="{ selected }"></template>
@@ -16,6 +17,7 @@
 				</template>
 				<template v-if="item.status === 'complete'">
 					<v-btn classs="mr-2" @click="cupping(item)">杯测</v-btn>
+					<v-btn classs="mr-2" @click="saveRecipe(item)">保存配方</v-btn>
 				</template>
 			</template>
 		</RoastList>
@@ -147,6 +149,17 @@ export default {
 	computed: {},
 	watch: {},
 	methods: {
+		saveRecipe(roast) {
+			this.$api.roast.saveRecipe(
+				roast.id,
+				(r) => {
+					alert('保存成功')
+				},
+				(err) => {
+					alert(err.message)
+				}
+			)
+		},
 		cupping(roast) {
 			this.cuppingDlg = true
 			this.cuppingObj = {

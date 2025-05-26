@@ -5,7 +5,7 @@
 		<v-icon color="info" @click="load">$reload</v-icon>
 		<v-spacer></v-spacer>
 	</v-card-title>
-	<CuppingList ref="thelist" show-select :single-select="false">
+	<CuppingList ref="thelist" show-select :single-select="false" :init-query.sync="query">
 		<template v-slot:batchActions="{ selected }"></template>
 		<template v-slot:actions="{ item }">
 			<v-icon class="mr-2 mb-1" @click="edit(item)">$edit</v-icon>
