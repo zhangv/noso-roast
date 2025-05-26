@@ -158,7 +158,8 @@ export default {
 			let form = {
 				...object,
 				cuppingsample_id: this.sample.id,
-				cupping_id: this.sample.cupping_id
+				cupping_id: this.sample.cupping_id,
+				bean_id: this.sample.bean_id
 			}
 			this.$api.cupping.updateScore(form, (r) => {
 				this.loadScores(this.sample.id)
