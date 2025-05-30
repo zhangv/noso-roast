@@ -44,9 +44,9 @@ const soul = {
 			to: '/setting',
 			items: [
 				{
-					title: '通用',
+					title: '页面',
 					icon: 'mdi-table-large',
-					to: '/setting/common'
+					to: '/page/manage'
 				},
 				{
 					title: '账户',

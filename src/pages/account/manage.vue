@@ -91,7 +91,7 @@ export default {
 					this.formDlg = false
 				},
 				(e) => {
-					this.errors = e.message
+					this.errors = e.data
 				}
 			)
 		},
