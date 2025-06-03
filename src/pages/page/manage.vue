@@ -8,14 +8,14 @@
 		<PageList ref="thelist" show-select :single-select="false" :init-query.sync="query" :headers="headers">
 			<template v-slot:batchActions="{ selected }"></template>
 			<template v-slot:actions="{ item }">
-				<v-icon class="mr-2" @click="detail(item)">$eye</v-icon>
+				<v-icon class="mr-2" @click="detail(item)">mdi-eye</v-icon>
 				<v-icon class="mr-2" @click="edit(item)">$edit</v-icon>
 				<v-icon class="mr-2" @click="del(item)" color="error">$delete</v-icon>
 			</template>
 		</PageList>
 		<!-- <v-dialog v-model="editDlg"> -->
 		<v-card>
-			<PageForm v-model:value="editingObj" :errors="errors">
+			<PageForm v-model:value="editObj" :errors="editErrors">
 				<template #actions="{ object }">
 					<v-card-actions>
 						<v-btn v-debounce color="primary" large @click="confirmEdit(object)">确认保存</v-btn>
@@ -51,7 +51,8 @@ export default {
 		return {
 			query: qps,
 			refs: {},
-			editingObj: {},
+			editObj: {},
+			editErrors: {},
 			objects: [],
 			total: 0,
 			editDlg: false,
@@ -84,15 +85,20 @@ export default {
 	watch: {},
 	methods: {
 		edit(o) {
-			this.editingObj = o
+			this.editObj = o
 			this.editDlg = true
 		},
 		confirmEdit(o) {
-			console.log('confirmedit', o.content)
-			this.$api.page.update(o, (r) => {
-				alert(`修改成功`)
-				this.load()
-			})
+			this.$api.page.update(
+				o,
+				(r) => {
+					alert(`修改成功`)
+					this.load()
+				},
+				(e) => {
+					this.editErrors = e.data
+				}
+			)
 		},
 		load() {
 			this.$refs.thelist.load()

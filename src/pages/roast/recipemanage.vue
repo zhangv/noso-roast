@@ -5,19 +5,21 @@
 			<template v-if="bean && bean.name">
 				<span class="ml-2">{{ bean.name }}</span>
 			</template>
-			<v-icon color="info" @click="load">$reload</v-icon>
+			<v-icon color="info" @click="load">mdi-reload</v-icon>
 		</v-card-title>
-		<RoastRecipeList ref="thelist" show-select :single-select="false" :init-query.sync="query" :headers="headers">
+		<RoastRecipeList ref="thelist" show-select :single-select="false" :init-query="query" :headers="headers">
 			<template v-slot:batchActions="{ selected }"></template>
 			<template v-slot:actions="{ item }">
 				<v-icon class="mr-2" @click="edit(item)">$edit</v-icon>
 			</template>
 		</RoastRecipeList>
-		<RoastRecipeForm v-model:id="editingObj.id" :errors="editingErrors">
-			<template #actions="{ object }">
-				<v-btn color="primary" @click="confirmEdit(object)">保存</v-btn>
-			</template>
-		</RoastRecipeForm>
+		<v-dialog v-model="editingDlg">
+			<RoastRecipeForm v-model:value="editingObj" :errors="editingErrors">
+				<template #actions="{ object }">
+					<v-btn color="primary" @click="confirmEdit(object)">保存</v-btn>
+				</template>
+			</RoastRecipeForm>
+		</v-dialog>
 	</div>
 </template>
 
@@ -34,11 +36,10 @@ export default {
 	},
 	data() {
 		const qps = qs.parse(location.search, { ignoreQueryPrefix: true })
-
 		return {
 			query: qps,
 			refs: {},
-			bean: {},
+			// bean: {},
 			editingObj: {},
 			objects: [],
 			total: 0,
@@ -83,18 +84,19 @@ export default {
 		},
 		edit(item) {
 			this.editingObj = clone(item)
+			this.editingDlg = true
 			this.editingErrors = {}
 		},
 		confirmEdit(form) {
-			console.log(form)
 			this.$api.roast.updateRecipe(
 				form,
 				(r) => {
 					this.editingDlg = false
 					this.load()
+					alert('保存成功')
 				},
 				(e) => {
-					this.editingErrors = e.message
+					this.editingErrors = e.data
 				}
 			)
 		},
