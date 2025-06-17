@@ -55,17 +55,18 @@
 			</template>
 		</BeanStockLogForm>
 	</v-dialog>
+	<CycleEditor v-model="form.cycle" />
 </template>
 
 <script>
-import { BeanForm, BeanList, BeanBatchForm, BeanStockLogForm, Tagger } from '@ui'
+import { BeanForm, BeanList, BeanBatchForm, BeanStockLogForm, Tagger, CycleEditor } from '@ui'
 import { format } from 'date-fns'
 import { clone } from 'lodash-es'
 import qs from 'qs'
 
 export default {
 	name: 'bean-manage',
-	components: { BeanForm, BeanList, BeanBatchForm, BeanStockLogForm, Tagger },
+	components: { BeanForm, BeanList, BeanBatchForm, BeanStockLogForm, Tagger, CycleEditor },
 	data() {
 		const qps = qs.parse(location.search, { ignoreQueryPrefix: true })
 		return {
@@ -78,7 +79,9 @@ export default {
 			loading: false,
 			options: {},
 			formDlg: false,
-			form: {},
+			form: {
+				cycle: '2025:*:*:*:*:*:00,1'
+			},
 			outDlg: false,
 			outForm: {},
 			outErrors: {},

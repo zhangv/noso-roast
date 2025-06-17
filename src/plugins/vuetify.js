@@ -147,6 +147,8 @@ import { aliases as mdiAliases, mdi } from 'vuetify/iconsets/mdi'
 //如果直接用 icon=mdi-xxx
 import { aliases as mdiSvgAliases, mdi as mdiSvg } from 'vuetify/iconsets/mdi-svg'
 //mdi-前缀
+import * as labs from 'vuetify/labs/components'
+// 关键：引入 Labs 组件
 
 import 'vuetify/styles'
 
@@ -313,7 +315,10 @@ const icons = {
 }
 
 const vuetify = createVuetify({
-	components,
+	components: {
+		...components,
+		...labs
+	},
 	directives,
 	icons,
 	// icons: {

@@ -48,6 +48,7 @@ const soul = {
 					icon: 'mdi-table-large',
 					to: '/page/manage'
 				},
+
 				{
 					title: '账户',
 					icon: 'mdi-wallet',
@@ -57,6 +58,11 @@ const soul = {
 					title: '供应商',
 					icon: 'mdi-store',
 					to: '/supplier/manage'
+				},
+				{
+					title: '分类',
+					icon: 'mdi-folder-multiple',
+					to: '/category/manage'
 				}
 			]
 		},
