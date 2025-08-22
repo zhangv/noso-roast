@@ -68,7 +68,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.load()
+		// this.load()
 	},
 	computed: {},
 	watch: {},
@@ -100,7 +100,7 @@ export default {
 			this.formDlg = true
 		},
 		history(account) {
-			this.goTo(`/account/logmanage?id=${account.id}`)
+			this.goTo(`/account/logmanage?shopaccount_id=${account.id}`)
 		}
 	}
 }

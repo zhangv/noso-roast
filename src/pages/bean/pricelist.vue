@@ -29,7 +29,7 @@ export default {
 	methods: {
 		load() {
 			this.$http.get(
-				`/bean/getPriceList`,
+				`/bean/pricelist`,
 				{
 					params: {
 						beanids: this.ids,

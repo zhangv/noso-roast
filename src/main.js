@@ -71,7 +71,6 @@ app.config.globalProperties.$formatDate = function (long) {
 	const date = new Date(long * 1000)
 	return format(date, 'yyyy-MM-dd')
 }
-
 app.component('Icon', Icon) //全局注册
 app.component('iconify-icon', Icon) //全局注册
 app.mount('#app')

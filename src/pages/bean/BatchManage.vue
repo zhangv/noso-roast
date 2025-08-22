@@ -20,6 +20,7 @@
 					<BeanBatchList :bean-id="beanid" ref="thelist" show-select :single-select="false">
 						<template v-slot:batchActions="{ selected }"></template>
 						<template v-slot:actions="{ item }">
+							<v-btn small @click="edit(item)" class="mr-1">详情</v-btn>
 							<template v-if="item.status == 'valid'">
 								<v-btn small @click="batchlog(item)" class="mr-1">变动日志</v-btn>
 								<v-btn small @click="undo(item)" class="mr-1" color="error">撤销</v-btn>
@@ -39,11 +40,11 @@
 		</v-card-text>
 		<v-dialog v-model="formDlg">
 			<v-card>
-				<v-card-title>编辑豆批次信息</v-card-title>
+				<v-card-title>批次详情</v-card-title>
 				<v-card-text>
 					<bean-batch-form v-model:value="form" :errors="errors">
 						<template #actions="{ object }">
-							<v-btn @click="save(object)">保存</v-btn>
+							<!-- <v-btn @click="save(object)">保存</v-btn> -->
 						</template>
 					</bean-batch-form>
 				</v-card-text>

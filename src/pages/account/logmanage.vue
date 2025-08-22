@@ -6,7 +6,13 @@
 			<v-spacer></v-spacer>
 		</v-card-title>
 		<v-card-text>
-			<ShopAccountLogTable ref="thelist" :init-query="query" show-select :single-select="false">
+			<ShopAccountLogTable
+				ref="thelist"
+				:init-query="query"
+				:key="query.toString()"
+				show-select
+				:single-select="false"
+			>
 				<template v-slot:batchActions="{ selected }"></template>
 				<template v-slot:actions="{ item }">
 					<v-btn small @click="view(item)">查看</v-btn>
@@ -38,8 +44,19 @@ export default {
 	mounted() {
 		this.load()
 	},
+	// activated() {
+	// 	this.query = qs.parse(location.search, { ignoreQueryPrefix: true })
+	// },
 	computed: {},
-	watch: {},
+	watch: {
+		// query: {
+		// 	handler(nv, ov) {
+		// 		console.log('query', nv, ov)
+		// 		this.load()
+		// 	},
+		// 	deep: true
+		// }
+	},
 	methods: {
 		load() {
 			this.$refs.thelist.load()

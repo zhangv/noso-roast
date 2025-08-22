@@ -2,8 +2,17 @@
 	<v-card-title class="d-flex align-center">
 		生豆管理
 		<v-icon color="primary" dark @click="add">$plus</v-icon>
-		<v-icon color="info" @click="load">$reload</v-icon>
+		<v-icon color="info" @click="load">mdi-refresh</v-icon>
 		<v-spacer></v-spacer>
+		<span style="font-size: 0.8rem">
+			{{ total.total }} 种
+			<span style="color: green">
+				生豆：{{ total.greenCount }}种 /{{ total.greenTotal }}克 /{{ total.greenTotalAmount }}元
+			</span>
+			<span style="color: brown">
+				熟豆：{{ total.roastedCount }}种 /{{ total.roastedTotal }}克 /{{ total.roastedTotalAmount }}元
+			</span>
+		</span>
 	</v-card-title>
 	<BeanList ref="thelist" show-select :single-select="false">
 		<template v-slot:batchActions="{ selected }"></template>
@@ -41,12 +50,15 @@
 		</v-card>
 	</v-dialog>
 	<v-dialog v-model="batchDlg">
-		<bean-batch-form v-model:value="batchForm" :errors="batchErrors">
-			<template #actions="{ object }">
-				<v-btn color="primary" large @click="saveBatch(object)">保存</v-btn>
-				<v-btn color="" large @click="batchDlg = false">关闭</v-btn>
-			</template>
-		</bean-batch-form>
+		<v-card>
+			<v-card-title>批次入库</v-card-title>
+			<bean-batch-form v-model:value="batchForm" :errors="batchErrors">
+				<template #actions="{ object }">
+					<v-btn color="primary" large @click="saveBatch(object)">保存</v-btn>
+					<v-btn color="" large @click="batchDlg = false">关闭</v-btn>
+				</template>
+			</bean-batch-form>
+		</v-card>
 	</v-dialog>
 	<v-dialog v-model="outDlg" max-width="80%">
 		<BeanStockLogForm v-model:value="outForm" :errors="outErrors">
@@ -101,12 +113,20 @@ export default {
 			tags: []
 		}
 	},
-	mounted() {},
+	mounted() {
+		this.loadTotal()
+	},
 	computed: {},
 	watch: {},
 	methods: {
 		load() {
 			this.$refs.thelist.load()
+			this.loadTotal()
+		},
+		loadTotal() {
+			this.$api.bean.getTotal((r) => {
+				this.total = r
+			})
 		},
 		tagging(obj) {
 			this.taggingDlg = true

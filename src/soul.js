@@ -44,11 +44,15 @@ const soul = {
 			to: '/setting',
 			items: [
 				{
+					title: '价格等级',
+					icon: 'mdi-table-large',
+					to: '/price/levelmanage'
+				},
+				{
 					title: '页面',
 					icon: 'mdi-table-large',
 					to: '/page/manage'
 				},
-
 				{
 					title: '账户',
 					icon: 'mdi-wallet',
