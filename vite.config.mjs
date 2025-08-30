@@ -86,7 +86,7 @@ export default defineConfig({
 			'@': fileURLToPath(new URL('./src', import.meta.url)),
 			'@ui': 'noso-ui',
 			// '@utils': 'noso-utils'
-			'@utils': fileURLToPath(new URL('./src/utils', import.meta.url)) // Ensure this path is correct
+			'@utils': fileURLToPath(new URL('../utils/src', import.meta.url)) // Ensure this path is correct
 		},
 		extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue']
 	},

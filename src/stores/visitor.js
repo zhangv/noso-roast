@@ -1,6 +1,5 @@
-import { defineStore } from 'pinia'
+import { useRootStore } from './root'
 import API from '@/api/'
-import qs from 'qs'
 import {
 	loadLoginStatus,
 	saveLoginStatus,
@@ -20,9 +19,11 @@ import {
 	loadPromoter,
 	savePromoter,
 	loadCache,
-	saveCache
-} from '@utils/cache'
-import { useRootStore } from './root'
+	saveCache,
+	saveRefreshToken
+} from '@utils/utils/cache'
+import { defineStore } from 'pinia'
+import qs from 'qs'
 
 export const useVisitorStore = defineStore('visitor', {
 	state: () => ({
@@ -43,19 +44,11 @@ export const useVisitorStore = defineStore('visitor', {
 			return state.loginStatus === 1 && state.token && state.userInfo
 		},
 		isAdmin: (state) => {
-			return (
-				state.userInfo &&
-				state.userInfo.roles &&
-				state.userInfo.rolenames.includes('admin')
-			)
+			return state.userInfo && state.userInfo.roles && state.userInfo.rolenames.includes('admin')
 		},
 		rolesByDomain: (state) => (domain, domainid) => {
 			let key = `${domain}:${domainid}`
-			return (
-				state.userInfo &&
-				state.userInfo.roleMap &&
-				state.userInfo.roleMap[key]
-			)
+			return state.userInfo && state.userInfo.roleMap && state.userInfo.roleMap[key]
 		},
 		roleMap: (state) => {
 			return state.userInfo && state.userInfo.roleMap
@@ -70,6 +63,9 @@ export const useVisitorStore = defineStore('visitor', {
 		},
 		setToken(token) {
 			this.token = saveToken(token)
+		},
+		setRefreshToken(refreshToken) {
+			this.refreshToken = saveRefreshToken(refreshToken)
 		},
 		setReturnURL(url) {
 			this.returnURL = saveReturnURL(url)
@@ -92,19 +88,8 @@ export const useVisitorStore = defineStore('visitor', {
 		onLoggedIn(res) {
 			this.setUserInfo(res.userInfo)
 			this.setToken(res.token)
+			this.setRefreshToken(res.refreshToken)
 			this.setLoginStatus(1)
-
-			// const rootStore = useRootStore()
-			// rootStore.setAlert('登录成功')
-			// rootStore.showLogin(false)
-			//正常情况，重定向会用户登录前要点击的页面 - 在外面做
-			//但是如果是在router中requireAuth拦截的
-			//这段逻辑移到 oauth/wechat 中 - 这部分是router 拦截的，无论什么登录方式都需要
-			// console.log('state.loginRedirect',state.loginRedirect)
-			//注意： 微信小程序授权时，授权后可能只是会在当时进行跳转即可，而不是登录的场景（返回landing页）
-			// if (state.loginRedirect) {//移入wechatapp.vue 2022-3-31
-			// 	router.push(state.loginRedirect)
-			// }
 		},
 		afterRedirect() {
 			this.setReturnUrl(null)

@@ -1,15 +1,12 @@
+import { loadToken, saveToken } from './cache'
+import { blobSaveFile } from './utils-funcs'
 import axios from 'axios'
 import promise from 'es6-promise'
-import { blobSaveFile } from './utils-funcs'
-import { loadToken } from './cache'
+
 promise.polyfill()
 
 class Http {
-	constructor(
-		{ baseURL = '/', timeout = 15000 },
-		headers = {},
-		statusCallbacks = {}
-	) {
+	constructor({ baseURL = '/', timeout = 15000 }, headers = {}, statusCallbacks = {}) {
 		this.service = axios.create({
 			//   withCredentials: true,
 			baseURL: baseURL,
@@ -59,10 +56,7 @@ class Http {
 	}
 
 	processQueue() {
-		if (
-			this.requestQueue.length === 0 ||
-			this.activeRequests >= this.MAX_CONCURRENT_REQUESTS
-		) {
+		if (this.requestQueue.length === 0 || this.activeRequests >= this.MAX_CONCURRENT_REQUESTS) {
 			return
 		}
 		const { resolve, reject, config } = this.requestQueue.shift()
