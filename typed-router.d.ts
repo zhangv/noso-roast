@@ -19,6 +19,7 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
+    '/404': RouteRecordInfo<'/404', '/404', Record<never, never>, Record<never, never>>,
     '/account/logmanage': RouteRecordInfo<'/account/logmanage', '/account/logmanage', Record<never, never>, Record<never, never>>,
     '/account/manage': RouteRecordInfo<'/account/manage', '/account/manage', Record<never, never>, Record<never, never>>,
     '/acl/usermanage': RouteRecordInfo<'/acl/usermanage', '/acl/usermanage', Record<never, never>, Record<never, never>>,
@@ -38,6 +39,13 @@ declare module 'vue-router/auto-routes' {
     '/page/detail': RouteRecordInfo<'/page/detail', '/page/detail', Record<never, never>, Record<never, never>>,
     '/page/manage': RouteRecordInfo<'/page/manage', '/page/manage', Record<never, never>, Record<never, never>>,
     '/price/levelmanage': RouteRecordInfo<'/price/levelmanage', '/price/levelmanage', Record<never, never>, Record<never, never>>,
+    '/report/ChartCopy': RouteRecordInfo<'/report/ChartCopy', '/report/ChartCopy', Record<never, never>, Record<never, never>>,
+    '/report/ChartManage': RouteRecordInfo<'/report/ChartManage', '/report/ChartManage', Record<never, never>, Record<never, never>>,
+    '/report/ChartUpdate': RouteRecordInfo<'/report/ChartUpdate', '/report/ChartUpdate', Record<never, never>, Record<never, never>>,
+    '/report/Copy': RouteRecordInfo<'/report/Copy', '/report/Copy', Record<never, never>, Record<never, never>>,
+    '/report/Detail': RouteRecordInfo<'/report/Detail', '/report/Detail', Record<never, never>, Record<never, never>>,
+    '/report/manage': RouteRecordInfo<'/report/manage', '/report/manage', Record<never, never>, Record<never, never>>,
+    '/report/Table': RouteRecordInfo<'/report/Table', '/report/Table', Record<never, never>, Record<never, never>>,
     '/roast/detail': RouteRecordInfo<'/roast/detail', '/roast/detail', Record<never, never>, Record<never, never>>,
     '/roast/manage': RouteRecordInfo<'/roast/manage', '/roast/manage', Record<never, never>, Record<never, never>>,
     '/roast/recipemanage': RouteRecordInfo<'/roast/recipemanage', '/roast/recipemanage', Record<never, never>, Record<never, never>>,

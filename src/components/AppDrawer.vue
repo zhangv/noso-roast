@@ -1,6 +1,6 @@
 <template>
 	<v-navigation-drawer :rail="rail" permanent width="120" rail-width="76" style="position: fixed; top: 64px">
-		<v-list dense>
+		<v-list density="compact">
 			<v-list-item link dense title="" class="d-flex justify-start" subtitle="" @click="rail = !rail">
 				<Icon v-if="rail" icon="mdi-chevron-right"></Icon>
 				<Icon v-else icon="mdi-chevron-left"></Icon>
@@ -18,7 +18,7 @@
 						</span>
 					</div>
 				</v-list-item>
-				<v-list-group v-else :value="item.to" dense>
+				<v-list-group v-else :value="item.to" density="compact">
 					<template v-slot:activator="{ props }">
 						<v-list-item v-bind="props" class="" style="max-width: 200px">
 							<div class="d-flex flex-row align-center">

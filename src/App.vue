@@ -3,7 +3,7 @@
 		<login-dialog />
 		<snack-bar position="fixed" location="top" rounded class="safe-fixed-top d-flex justify-space-between" />
 		<router-view />
-		<confirm-dialog v-model="showConfirm" :confirm="confirm" />
+		<confirm-dialog v-model:value="showConfirm" :confirm="confirm" />
 	</v-app>
 </template>
 

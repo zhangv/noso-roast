@@ -3,9 +3,9 @@
  *
  * Automatic routes for `./src/pages/*.vue`
  */
-
 // Composables
 import { createRouter, createWebHistory } from 'vue-router/auto'
+
 // import { setupLayouts } from 'virtual:generated-layouts'
 
 const defaultLayoutComponent = () => import('../layouts/default.vue')
@@ -33,10 +33,22 @@ const routes = Object.keys(pageComponents).map((filePath) => {
 			{
 				// Use an empty path for the child route to directly render it in the default layout
 				path: '',
-        component: pageComponents[filePath] // Lazy-load the page component
+				component: pageComponents[filePath] // Lazy-load the page component
 			}
 		]
 	}
+})
+
+// Add 404 route at the end
+routes.push({
+	path: '/:pathMatch(.*)*',
+	component: defaultLayoutComponent,
+	children: [
+		{
+			path: '',
+			component: () => import('../pages/404.vue')
+		}
+	]
 })
 
 const router = createRouter({

@@ -28,7 +28,7 @@
 			<v-btn class="mr-2 mb-1" small @click="goTo(`/cupping/scoremanage/?bean_id=${item.id}`)">杯测评分</v-btn>
 		</template>
 	</BeanList>
-	<v-dialog v-model="taggingDlg">
+	<v-dialog v-model="taggingDlg" :persistent="false">
 		<v-card>
 			<tagger :id="taggingObj.id" type="bean"></tagger>
 			<v-card-actions>
@@ -36,7 +36,7 @@
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
-	<v-dialog v-model="formDlg">
+	<v-dialog v-model="formDlg" :persistent="false">
 		<v-card>
 			<v-card-title>编辑生豆信息</v-card-title>
 			<v-card-text>
@@ -49,7 +49,7 @@
 			</v-card-text>
 		</v-card>
 	</v-dialog>
-	<v-dialog v-model="batchDlg">
+	<v-dialog v-model="batchDlg" :persistent="false">
 		<v-card>
 			<v-card-title>批次入库</v-card-title>
 			<bean-batch-form v-model:value="batchForm" :errors="batchErrors">
@@ -67,7 +67,7 @@
 			</template>
 		</BeanStockLogForm>
 	</v-dialog>
-	<CycleEditor v-model="form.cycle" />
+	<!-- <CycleEditor v-model="form.cycle" /> -->
 </template>
 
 <script>
@@ -92,7 +92,7 @@ export default {
 			options: {},
 			formDlg: false,
 			form: {
-				cycle: '2025:*:*:*:*:*:00,1'
+				// cycle: '2025:*:*:*:*:*:00,1'
 			},
 			outDlg: false,
 			outForm: {},

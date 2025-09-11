@@ -1,7 +1,7 @@
 <template>
 	<AppHeader />
 	<AppDrawer />
-	<v-main>
+	<v-main class="mt-2">
 		<router-view v-slot="{ Component, route }">
 			<keep-alive :include="cachedPages">
 				<component :is="Component" />

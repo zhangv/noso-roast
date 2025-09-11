@@ -15,7 +15,7 @@
         <v-text-field label="姓名" v-model="form.name" />
       </v-col>
       <v-col cols="6" class="pr-0">
-        <v-radio-group v-model="form.sex" label="" row dense>
+        <v-radio-group v-model="form.sex" label="" row density="compact">
           <v-radio label="女士" value="female" />
           <v-radio label="先生" value="male" class="mx-0" />
         </v-radio-group>

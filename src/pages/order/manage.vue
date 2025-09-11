@@ -30,8 +30,9 @@
 					<v-btn small class="mr-1 mb-1" @click="settle(item)">重新结算</v-btn>
 				</template>
 				<template v-if="item.status == 'settled'">
-					<v-btn small class="mr-1 mb-1" @click="afterSettle(item)">结算后更新库存(临时)</v-btn>
+					<!-- <v-btn small class="mr-1 mb-1" @click="afterSettle(item)">结算后更新库存(临时)</v-btn> -->
 					<v-btn small class="mr-1 mb-1" @click="settleUndo(item)">撤销结算</v-btn>
+					<v-btn small class="mr-1 mb-1" @click="refund(item)">退款退货</v-btn>
 				</template>
 			</template>
 		</OrderList>
@@ -83,7 +84,9 @@ export default {
 				}
 			],
 			settleDlg: false,
-			settleOrder: null
+			settleOrder: null,
+			refundDlg: false,
+			refundOrder: null
 		}
 	},
 	mounted() {
@@ -102,7 +105,7 @@ export default {
 			this.formDlg = true
 		},
 		save(form) {
-			this.$api.order.update(
+			this.$api.order.create(
 				form,
 				(r) => {
 					this.load()
@@ -119,6 +122,15 @@ export default {
 		},
 		detail(order) {
 			//TODO
+		},
+		refund(order) {
+			this.refundDlg = true
+			this.refundOrder = clone(order)
+		},
+		confirmRefund(order) {
+			this.$api.order.confirmRefund(order.id, (r) => {
+				this.load()
+			})
 		},
 		settle(order) {
 			this.settleDlg = true
