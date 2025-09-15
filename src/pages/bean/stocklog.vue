@@ -1,24 +1,28 @@
 <template>
-	<v-sheet>
+	<div>
 		<v-card-title class="d-flex align-center">
-			豆库存
+			豆库存变动记录
 			<v-icon color="primary" dark @click="add">$plus</v-icon>
 			<v-icon color="info" @click="load">$reload</v-icon>
 			<v-spacer></v-spacer>
 		</v-card-title>
-	</v-sheet>
+		<v-card-text>
+			<BeanStockLogList :bean-id="beanid" ref="stockloglist" :single-select="false"></BeanStockLogList>
+		</v-card-text>
+	</div>
 </template>
 
 <script>
+import { BeanStockLogList } from '@ui'
 import { clone } from 'lodash-es'
 import qs from 'qs'
 
 export default {
-	components: {},
+	components: { BeanStockLogList },
 	prop: ['beanid'],
 	data() {
 		return {
-			query: qps,
+			query: {},
 			refs: {},
 			editingObj: {},
 			objects: [],

@@ -1,5 +1,5 @@
-// Styles
-import '@mdi/font/css/materialdesignicons.css'
+// Styles - No longer needed if using SVG for tree-shaking
+// import '@mdi/font/css/materialdesignicons.css'
 import {
 	mdiMusicNoteOutline,
 	mdiMusicNoteOffOutline,
@@ -146,9 +146,8 @@ import * as directives from 'vuetify/directives'
 import { aliases as mdiAliases, mdi } from 'vuetify/iconsets/mdi'
 //如果直接用 icon=mdi-xxx
 import { aliases as mdiSvgAliases, mdi as mdiSvg } from 'vuetify/iconsets/mdi-svg'
-//mdi-前缀
 import * as labs from 'vuetify/labs/components'
-// 关键：引入 Labs 组件
+//mdi-前缀
 
 import 'vuetify/styles'
 
@@ -299,18 +298,16 @@ const customIcons = {
 	notice: mdiVolumeHigh
 }
 const icons = {
-	defaultSet: 'mdi', // 'mdi' || 'mdiSvg'
-	// FIXME: default使用mdi可以正常显示mdi-开头的图标，mdiSvg可以正常显示自定义图标
+	defaultSet: 'mdiSvg', // 'mdi' || 'mdiSvg'
 	sets: {
-		mdi,
 		mdiSvg
+		// customIcons
+		// mdiSvg
 	},
 	aliases: {
-		...customIcons,
-		...mdiAliases,
-		...mdiSvgAliases
-
-		// reload: mdiHome
+		// ...mdiAliases, // Vuetify 默认别名（包含 plus）
+		...mdiSvgAliases,
+		...customIcons // 自定义别名（包含 reload）- 放在最后确保优先级
 	}
 }
 

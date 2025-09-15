@@ -1,8 +1,10 @@
 <template>
-	<v-card-title class="d-flex align-center">
+	<v-card-title class="d-flex align-center flex-wrap">
 		生豆管理
 		<v-icon color="primary" dark @click="add">$plus</v-icon>
-		<v-icon color="info" @click="load">mdi-refresh</v-icon>
+		<v-icon color="info" @click="load">$reload</v-icon>
+		<v-btn variant="solo" color="secondary" @click="goTo(`/bean/stocklog`)">全部库存变动</v-btn>
+		<v-btn variant="solo" color="info" @click="goTo(`/bean/batchlog`)">全部批次变动</v-btn>
 		<v-spacer></v-spacer>
 		<span style="font-size: 0.8rem">
 			{{ total.total }} 种

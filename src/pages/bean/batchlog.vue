@@ -13,7 +13,7 @@
 			<v-icon color="info" @click="load">$reload</v-icon>
 		</v-card-title>
 		<v-card-text>
-			<BeanBatchLogList title="批次变动历史" :bean-id="beanid" ref="stocklist" :single-select="false">
+			<BeanBatchLogList :bean-id="beanid" ref="stocklist" :single-select="false">
 				<template v-slot:batchActions="{ selected }"></template>
 				<template v-slot:actions="{ item }"></template>
 			</BeanBatchLogList>

@@ -45,17 +45,31 @@
 				</template>
 			</settle-form>
 		</v-dialog>
+		<v-dialog v-model="refundDlg">
+			<refund-form
+				:order-no="refundOrder.id"
+				:errors="refundErrors"
+				@close="refundDlg = false"
+				@confirm="confirmRefund"
+			>
+				<!-- <template #actions="{ payitems }">
+					<v-card-actions>
+						<v-btn color="primary" size="large" @click="confirmRefund(payitems)">退款退货</v-btn>
+					</v-card-actions>
+				</template> -->
+			</refund-form>
+		</v-dialog>
 	</div>
 </template>
 
 <script>
-import { OrderForm, OrderList, OrderSettleForm } from '@ui'
+import { OrderForm, OrderList, OrderSettleForm, OrderRefundForm } from '@ui'
 import { format } from 'date-fns'
 import { clone } from 'lodash-es'
 import qs from 'qs'
 
 export default {
-	components: { OrderForm, OrderList, SettleForm: OrderSettleForm },
+	components: { OrderForm, OrderList, SettleForm: OrderSettleForm, RefundForm: OrderRefundForm },
 	props: [],
 	data() {
 		const qps = qs.parse(location.search, { ignoreQueryPrefix: true })
@@ -86,7 +100,8 @@ export default {
 			settleDlg: false,
 			settleOrder: null,
 			refundDlg: false,
-			refundOrder: null
+			refundOrder: null,
+			refundErrors: {}
 		}
 	},
 	mounted() {
@@ -127,10 +142,17 @@ export default {
 			this.refundDlg = true
 			this.refundOrder = clone(order)
 		},
-		confirmRefund(order) {
-			this.$api.order.confirmRefund(order.id, (r) => {
-				this.load()
-			})
+		confirmRefund(form) {
+			console.log('confirmRefund', form)
+			this.$api.order.refund(
+				form,
+				(r) => {
+					this.load()
+				},
+				(e) => {
+					this.refundErrors = e.data
+				}
+			)
 		},
 		settle(order) {
 			this.settleDlg = true
