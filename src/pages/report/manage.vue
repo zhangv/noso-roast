@@ -37,7 +37,7 @@
 		<ReportList ref="thelist" show-select :single-select="false">
 			<template v-slot:actions="{ item }">
 				<!--				<v-btn @click="detail(item)" color="primary" class="mr-1">生成</v-btn>-->
-				<v-btn @click="$router.push('/report/chartmanage/' + item.id)" class="mr-1 mb-1">图表</v-btn>
+				<v-btn @click="$router.push('/report/chartmanage?report_id=' + item.id)" class="mr-1 mb-1">图表</v-btn>
 				<v-icon @click="edit(item)" class="mr-1 mb-1">$edit</v-icon>
 				<v-icon @click="del(item)" color="error" class="mr-1 mb-1">$delete</v-icon>
 				<v-icon @click="copy(item)" class="mr-1 mb-1">mdi-content-copy</v-icon>
@@ -133,7 +133,7 @@ export default {
 			})
 		},
 		detail(i) {
-			this.$router.push(`/report/detail/${i.id}`)
+			this.$router.push(`/report/detail?id=${i.id}`)
 		},
 		create() {
 			this.editingObj = {}

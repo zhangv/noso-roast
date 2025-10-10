@@ -43,7 +43,7 @@ declare module 'vue-router/auto-routes' {
     '/report/ChartManage': RouteRecordInfo<'/report/ChartManage', '/report/ChartManage', Record<never, never>, Record<never, never>>,
     '/report/ChartUpdate': RouteRecordInfo<'/report/ChartUpdate', '/report/ChartUpdate', Record<never, never>, Record<never, never>>,
     '/report/Copy': RouteRecordInfo<'/report/Copy', '/report/Copy', Record<never, never>, Record<never, never>>,
-    '/report/Detail': RouteRecordInfo<'/report/Detail', '/report/Detail', Record<never, never>, Record<never, never>>,
+    '/report/detail': RouteRecordInfo<'/report/detail', '/report/detail', Record<never, never>, Record<never, never>>,
     '/report/manage': RouteRecordInfo<'/report/manage', '/report/manage', Record<never, never>, Record<never, never>>,
     '/report/Table': RouteRecordInfo<'/report/Table', '/report/Table', Record<never, never>, Record<never, never>>,
     '/roast/detail': RouteRecordInfo<'/roast/detail', '/roast/detail', Record<never, never>, Record<never, never>>,

@@ -3,8 +3,8 @@
 		生豆管理
 		<v-icon color="primary" dark @click="add">$plus</v-icon>
 		<v-icon color="info" @click="load">$reload</v-icon>
-		<v-btn variant="solo" color="secondary" @click="goTo(`/bean/stocklog`)">全部库存变动</v-btn>
-		<v-btn variant="solo" color="info" @click="goTo(`/bean/batchlog`)">全部批次变动</v-btn>
+		<v-btn variant="tonal" color="secondary" @click="goTo(`/bean/stocklog`)">全部库存变动</v-btn>
+		<v-btn variant="tonal" color="info" @click="goTo(`/bean/batchlog`)">全部批次变动</v-btn>
 		<v-spacer></v-spacer>
 		<span style="font-size: 0.8rem">
 			{{ total.total }} 种
@@ -171,11 +171,9 @@ export default {
 			}
 		},
 		saveStockLog(log) {
-			//出库
 			this.$api.bean.updateStockLog(
 				log,
 				(r) => {
-					console.log('r', r)
 					this.load()
 					this.outDlg = false
 				},

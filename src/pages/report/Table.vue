@@ -25,7 +25,6 @@
 </template>
 
 <script>
-const S = require('string')
 export default {
 	components: {},
 	props: {
@@ -42,23 +41,18 @@ export default {
 	}),
 	mounted() {},
 	methods: {
-		linkold(template, k, v) {
-			console.log('report link', template, k, v)
-			let l = S(template).replaceAll(`#${k}#`, v)
-			this.goTo(l)
-		},
 		link(template, row) {
 			let str = template // 'aaaaa#a_1#vvvv#b#'
 			let reg = /#[\w]+#/g
 			let matched = [...str.matchAll(reg)]
 			// console.log(result)
 			let result = template
-			console.log('report link', template, row)
+			// console.log('report link', template, row)
 			matched.forEach((e) => {
 				let columnid = e[0].replaceAll('#', '') //trim ##
 				result = result.replaceAll(e[0], row[columnid])
 			})
-			console.log('result', result)
+			// console.log('result', result)
 			// let l = S(template).replaceAll(`#${k}#`, v)
 			this.goTo(result)
 		},

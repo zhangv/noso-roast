@@ -1,8 +1,7 @@
-import { createI18n } from 'vue-i18n'
-
-import { loadLocale } from '@/utils/cache'
-import commonLocaleMessages from '@ui/src/i18n'
+import commonLocaleMessages from '@ui/i18n'
+import { loadLocale } from '@utils/utils/cache'
 import { clone, merge } from 'lodash-es'
+import { createI18n } from 'vue-i18n'
 
 const loadLocaleMessages = () => {
 	const files = import.meta.glob('../locales/*.json', { eager: true })

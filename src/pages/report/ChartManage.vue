@@ -1,13 +1,13 @@
 <template>
 	<v-card elevation="0">
 		<v-card-title>
-			<template v-if="report">
-				图表管理 - {{ report.name }}
-				<v-icon @click="create" color="primary">$plus</v-icon>
-				<v-icon @click="createMulti" color="primary">mdi-chart-multiple</v-icon>
-				<v-icon @click="load" color="primary">$reload</v-icon>
-			</template>
+			<template v-if="report">图表管理 - {{ report.name }}</template>
 			<template v-else>全部图表</template>
+			<v-icon @click="create" color="primary">$plus</v-icon>
+			<!-- <v-btn @click="createMulti" color="primary" variant="tonal">
+				<Icon icon="mdi-chart-multiple" color="primary"></Icon>
+			</v-btn> -->
+			<v-icon @click="load" color="primary">$reload</v-icon>
 		</v-card-title>
 		<v-card-subtitle>
 			<v-form @submit.prevent="load" classx="d-flex align-center">
@@ -70,7 +70,7 @@
 			}"
 		>
 			<template v-slot:item.report="{ item }">
-				<a href="#" @click="goTo(`/report/detail/${item.report.id}`)">
+				<a href="#" @click="goTo(`/report/detail?id=${item.report.id}`)">
 					{{ item.report ? item.report.name : 'error' }}
 				</a>
 			</template>
@@ -145,7 +145,7 @@ export default {
 			this.loadReport()
 		}
 		this.load()
-		this.$http2.get(`/report/meta/ChartStatus,ChartType`).then((r) => {
+		this.$api.common.getMeta(`report`, `ChartStatus,ChartType`, (r) => {
 			this.refs = r
 		})
 	},
@@ -169,13 +169,7 @@ export default {
 			}
 			this.showEditor = true
 		},
-		createMulti() {
-			this.editingObj = {
-				report_id: this.reportid,
-				colNames: []
-			}
-			this.chartMultiDlg = true
-		},
+
 		loadReport() {
 			this.$api.report.getById(this.reportid, (response) => {
 				this.report = response

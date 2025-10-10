@@ -3,8 +3,10 @@
 		<v-card>
 			<v-card-title class="d-flex align-center">
 				{{ report.name }}
-				<v-icon @click="goTo(`/report/update/${report.id}`)" class="ml-2">mdi-pencil</v-icon>
-				<v-icon @click="goTo(`/report/chartmanage/${report.id}`)" class="ml-2">mdi-chart-areaspline</v-icon>
+				<v-icon @click="goTo(`/report/update?id=${report.id}`)" class="ml-2">mdi-pencil</v-icon>
+				<v-icon @click="goTo(`/report/chartmanage?report_id=${report.id}`)" class="ml-2">
+					mdi-chart-areaspline
+				</v-icon>
 			</v-card-title>
 			<v-card-subtitle>{{ report.description }}</v-card-subtitle>
 			<v-card-text class="d-inline-flex d-flex align-center">
@@ -81,6 +83,8 @@
 							:items="getSelectOptions(p.description)"
 							:label="p.label"
 							persistent-hint
+							item-text="text"
+							item-value="value"
 							class="d-inline mr-2"
 							style="max-width: 10rem !important"
 						/>
@@ -195,9 +199,10 @@ export default {
 	},
 
 	props: {
-		id: { type: String }
+		// id: { type: String }
 	},
 	data: () => ({
+		id: qs.parse(location.search, { ignoreQueryPrefix: true }).id,
 		form: {},
 		report: {},
 		menus: {},
@@ -209,7 +214,7 @@ export default {
 	computed: {},
 	watch: {},
 	mounted() {
-		this.$api.common.getMeta('Report', 'STATUSLABEL,TYPELABEL', (r) => {
+		this.$api.common.meta(`report`, `ReportStatus,ReportType`, (r) => {
 			this.options = r
 		})
 		if (this.id) {
@@ -259,16 +264,16 @@ export default {
 			})
 		},
 		generate() {
-			this.$loading.show()
+			// this.$loading.show()
 			this.$api.report.generate(
 				this.id,
 				this.form,
 				(r) => {
 					this.result = r
-					this.$loading.hide()
+					// this.$loading.hide()
 				},
 				(e) => {
-					this.$loading.hide()
+					// this.$loading.hide()
 					this.$alert(e)
 				}
 			)

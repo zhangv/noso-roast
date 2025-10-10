@@ -2,8 +2,8 @@
 	<div>
 		<v-card-title class="d-flex align-center">
 			账户管理
-			<v-icon color="primary" dark @click="add">$plus</v-icon>
-			<v-icon color="info" @click="load">$reload</v-icon>
+			<v-icon color="primary" dark @click="add">mdi-plus</v-icon>
+			<v-icon color="info" @click="load">mdi-refresh</v-icon>
 			<v-spacer></v-spacer>
 		</v-card-title>
 		<v-card-text>

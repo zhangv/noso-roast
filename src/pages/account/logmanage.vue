@@ -2,7 +2,7 @@
 	<div>
 		<v-card-title class="d-flex align-center">
 			账户历史
-			<v-icon color="info" @click="load">$reload</v-icon>
+			<v-icon color="info" @click="load">mdi-refresh</v-icon>
 			<v-spacer></v-spacer>
 		</v-card-title>
 		<v-card-text>
