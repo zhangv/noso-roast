@@ -20,14 +20,17 @@
 			</ShopAccountLogTable>
 		</v-card-text>
 	</div>
+	<v-dialog v-model="orderDetailDlg" width="500">
+		<order-detail :order-id="orderId" />
+	</v-dialog>
 </template>
 
 <script>
-import { ShopAccountLogTable } from '@ui'
+import { ShopAccountLogTable, OrderDetail } from '@ui'
 import qs from 'qs'
 
 export default {
-	components: { ShopAccountLogTable },
+	components: { ShopAccountLogTable, OrderDetail },
 	props: [],
 	data() {
 		const qps = qs.parse(location.search, { ignoreQueryPrefix: true })

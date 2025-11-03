@@ -36,11 +36,16 @@
 				</template>
 			</template>
 		</OrderList>
+		<v-dialog v-model="detailDlg">
+			<order-detail :value="detailOrder" />
+		</v-dialog>
 		<v-dialog v-model="settleDlg">
 			<settle-form :order="settleOrder" @close="settleDlg = false">
 				<template #actions="{ payitems }">
 					<v-card-actions>
-						<v-btn color="primary" size="large" @click="confirmSettle(payitems)">结算</v-btn>
+						<v-btn color="primary" size="large" :disabled="settling" @click="confirmSettle(payitems)">
+							结算
+						</v-btn>
 					</v-card-actions>
 				</template>
 			</settle-form>
@@ -63,13 +68,13 @@
 </template>
 
 <script>
-import { OrderForm, OrderList, OrderSettleForm, OrderRefundForm } from '@ui'
+import { OrderForm, OrderList, OrderSettleForm, OrderRefundForm, OrderDetail } from '@ui'
 import { format } from 'date-fns'
 import { clone } from 'lodash-es'
 import qs from 'qs'
 
 export default {
-	components: { OrderForm, OrderList, SettleForm: OrderSettleForm, RefundForm: OrderRefundForm },
+	components: { OrderForm, OrderList, SettleForm: OrderSettleForm, RefundForm: OrderRefundForm, OrderDetail },
 	props: [],
 	data() {
 		const qps = qs.parse(location.search, { ignoreQueryPrefix: true })
@@ -99,9 +104,12 @@ export default {
 			],
 			settleDlg: false,
 			settleOrder: null,
+			settling: false,
 			refundDlg: false,
 			refundOrder: null,
-			refundErrors: {}
+			refundErrors: {},
+			detailDlg: false,
+			detailOrder: null
 		}
 	},
 	mounted() {
@@ -136,7 +144,8 @@ export default {
 			this.formDlg = true
 		},
 		detail(order) {
-			//TODO
+			this.detailDlg = true
+			this.detailOrder = clone(order)
 		},
 		refund(order) {
 			this.refundDlg = true
@@ -167,13 +176,16 @@ export default {
 				(r) => {
 					this.load()
 					this.settleDlg = false
+					this.settling = false
 				},
 				(e) => {
 					this.errors = e.data
+					this.settling = false
 				}
 			)
 		},
 		confirmSettle(payitems) {
+			this.settling = true
 			this.$api.order.settle(
 				{
 					order_id: this.settleOrder.id,
@@ -182,9 +194,11 @@ export default {
 				(r) => {
 					this.load()
 					this.settleDlg = false
+					this.settling = false
 				},
 				(e) => {
 					this.errors = e.data
+					this.settling = false
 				}
 			)
 		},
