@@ -92,7 +92,15 @@ export default defineConfig({
 		extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue']
 	},
 	server: {
-		port: 3000
+		port: 9000
+		// proxy: {
+		// 	//只有开发环境需要代理，生产环境不需要代理
+		// 	'/api': {
+		// 		target: 'http://localhost:8000',
+		// 		changeOrigin: true,
+		// 		rewrite: (path) => path.replace(/^\/api/, '')
+		// 	}
+		// }
 	},
 	build: {
 		sourcemap: true,

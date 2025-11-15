@@ -36,8 +36,18 @@
 			<v-card>
 				<profile-form v-model:roastId="profileId" :errors="profileErrors">
 					<template #actions="{ object }">
-						<v-card-actions>
-							<v-btn v-debounce color="primary" large @click="confirmProfile(object)">确认保存</v-btn>
+						<v-card-actions class="justify-center">
+							<v-btn variant="outlined" size="large" v-debounce @click="profileDlg = false">取消</v-btn>
+							<v-btn
+								variant="elevated"
+								size="large"
+								v-debounce
+								color="primary"
+								large
+								@click="confirmProfile(object)"
+							>
+								确认保存
+							</v-btn>
 						</v-card-actions>
 					</template>
 				</profile-form>

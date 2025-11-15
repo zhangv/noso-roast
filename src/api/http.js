@@ -1,6 +1,4 @@
 import soul from '@/soul'
-import { useRootStore } from '@/stores/root'
-import { useVisitorStore } from '@/stores/visitor'
 import HttpClient from '@utils/httpclient'
 
 const http = HttpClient.getInstance(
