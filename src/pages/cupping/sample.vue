@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<v-card-title>
-			样本详情
+			样本详情 TODO 根据sampledetail修改
 			<span class="text-h6">{{ scoreSummary.count }}次评分 总平均分 {{ scoreSummary.total }}</span>
 			<v-btn color="primary" @click="scoreDlg = true">评分</v-btn>
 			<a :href="`/cupping/detail?id=${sample.cupping_id}`">杯测</a>

@@ -10,15 +10,16 @@ const http = HttpClient.getInstance(
 		'X-Requested-With': 'API/adminxx'
 	},
 	{
-		// 401: () => {
-		// 	const visitorStore = useVisitorStore()
-		// 	visitorStore.clearLogin()
-		// 	const rootStore = useRootStore()
-		// 	console.warn(rootStore)
-		// 	// rootStore.setAlert('登录过期')
-		// 	rootStore.setShowLogin(true)
-		// 	console.log('401')
-		// }
+		401: () => {
+			// const visitorStore = useVisitorStore()
+			// visitorStore.clearLogin()
+			// const rootStore = useRootStore()
+			// console.warn(rootStore)
+			// // rootStore.setAlert('登录过期')
+			// rootStore.setShowLogin(true)
+			// console.log('401')
+			alert('请登录')
+		}
 	}
 )
 
