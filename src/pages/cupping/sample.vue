@@ -1,7 +1,9 @@
 <template>
 	<div>
 		<v-card-title>
-			样本详情 TODO 根据sampledetail修改
+			<span class="text-h6" v-if="bean">
+				{{ bean.name }}
+			</span>
 			<span class="text-h6">{{ scoreSummary.count }}次评分 总平均分 {{ scoreSummary.total }}</span>
 			<v-btn color="primary" @click="scoreDlg = true">评分</v-btn>
 			<a :href="`/cupping/detail?id=${sample.cupping_id}`">杯测</a>
@@ -51,7 +53,7 @@
 		</v-card-text>
 	</div>
 	<v-dialog v-model="scoreDlg">
-		<CuppingScoreForm :sample="sample">
+		<CuppingScoreForm :bean="bean" :sample="sample">
 			<template #actions="{ object }">
 				<v-btn color="primary" @click="submitScore(object)">提交评分</v-btn>
 			</template>
@@ -83,6 +85,7 @@ export default {
 		return {
 			sampleId: qps.id,
 			sample: {},
+			bean: {},
 			scores: [],
 			total: 0,
 			dimensions: [
@@ -109,6 +112,7 @@ export default {
 		load() {
 			this.$api.cupping.getSampleById(`${this.sampleId}`, (r) => {
 				this.sample = r
+				this.bean = r.bean
 				this.loadScores(this.sample.id)
 			})
 		},
