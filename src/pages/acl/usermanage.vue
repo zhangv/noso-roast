@@ -9,6 +9,7 @@
 		<template v-slot:actions="{ item }">
 			<v-icon class="mr-2 mb-1" @click="edit(item)">$edit</v-icon>
 			<v-icon class="mr-2 mb-1" @click="del(item)" color="error">$delete</v-icon>
+			<v-icon class="mr-2 mb-1" @click="modifyPassword(item)" color="primary">$password</v-icon>
 		</template>
 	</UserList>
 
@@ -25,17 +26,23 @@
 			</v-card-text>
 		</v-card>
 	</v-dialog>
+	<v-dialog v-model="changePwdDlg">
+		<v-card>
+			<v-card-title>修改密码</v-card-title>
+			<modify-password-form v-model:value="changePwdForm" :errors="errors"></modify-password-form>
+		</v-card>
+	</v-dialog>
 </template>
 
 <script>
-import { UserForm, UserList } from '@ui'
+import { UserForm, UserList, ModifyPasswordForm } from '@ui'
 import { format } from 'date-fns'
 import { clone } from 'lodash-es'
 import qs from 'qs'
 
 export default {
 	name: 'user-manage',
-	components: { UserForm, UserList },
+	components: { UserForm, UserList, ModifyPasswordForm },
 	data() {
 		const qps = qs.parse(location.search, { ignoreQueryPrefix: true })
 		return {
@@ -50,7 +57,9 @@ export default {
 			formDlg: false,
 			form: {},
 			errors: {},
-			tags: []
+			tags: [],
+			changePwdForm: {},
+			changePwdDlg: false
 		}
 	},
 	mounted() {},
@@ -67,6 +76,12 @@ export default {
 		add() {
 			this.form = {}
 			this.formDlg = true
+		},
+		modifyPassword(item) {
+			this.changePwdForm = {
+				user_id: item.id
+			}
+			this.changePwdDlg = true
 		},
 		edit(item) {
 			this.form = clone(item)

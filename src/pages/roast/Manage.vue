@@ -56,6 +56,12 @@
 		<v-dialog v-model="completeDlg">
 			<v-card>
 				<v-card-title>完成烘焙</v-card-title>
+				<v-card-subtitle>
+					<template v-if="completeRoast">
+						{{ completeRoast.name }}
+						<v-chip color="warning">{{ completeRoast.inqty }} 克</v-chip>
+					</template>
+				</v-card-subtitle>
 				<v-card-text>
 					<complete-form v-model:value="completeForm" :errors="completeErrors">
 						<template #actions="{ object }">
@@ -131,6 +137,7 @@ export default {
 			completeDlg: false,
 			completeForm: {},
 			completeErrors: {},
+			completeRoast: null,
 			detailId: null,
 			detailDlg: false,
 			detailObj: {},
@@ -246,6 +253,7 @@ export default {
 			)
 		},
 		complete(roast) {
+			this.completeRoast = roast
 			this.completeDlg = true
 			this.completeForm = {
 				id: roast.id,
