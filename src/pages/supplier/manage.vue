@@ -94,9 +94,16 @@ export default {
 		del(item) {
 			this.$confirm('确定要删除吗？').then((r) => {
 				if (r) {
-					this.$api.bean.remove(item.id, (data) => {
-						this.load()
-					})
+					this.$api.supplier.remove(
+						item.id,
+						(data) => {
+							this.load()
+						},
+						(e) => {
+							console.log('aaaaaaaaaaaaaa', e)
+							this.$alert(e.message)
+						}
+					)
 				}
 			})
 		}

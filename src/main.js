@@ -11,7 +11,8 @@ import { useRootStore } from './stores/root'
 import router from '@/router'
 import registerStores from '@/stores'
 import { Icon } from '@iconify/vue'
-import { formatTime, formatDate, formatTimeOnly, formatRelativeTime } from '@ui/utils/time-format-universal'
+// import { formatTime, formatDate, formatTimeOnly, formatRelativeTime } from '@ui/utils/time-format-universal'
+import { useTimeFormat } from '@ui/plugins/time-format-universal'
 import { format } from 'date-fns'
 import 'iconify-icon'
 import { createPinia } from 'pinia'
@@ -26,6 +27,7 @@ app.use(pinia)
 app.use(router)
 app.use(i18n)
 app.use(debounce)
+app.use(useTimeFormat())
 
 app.config.globalProperties.$api = api
 
@@ -35,11 +37,6 @@ app.config.globalProperties.$soul = soul
 
 const stores = registerStores()
 app.config.globalProperties.$stores = stores
-
-app.config.globalProperties.$formatTime = formatTime
-app.config.globalProperties.$formatDate = formatDate
-app.config.globalProperties.$formatTimeOnly = formatTimeOnly
-app.config.globalProperties.$formatRelativeTime = formatRelativeTime
 
 app.config.globalProperties.$confirm = async function (
 	title,

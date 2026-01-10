@@ -292,9 +292,15 @@ export default {
 			this.$confirm('确定要删除吗？').then((r) => {
 				if (r === true) {
 					let id = item.id
-					this.$http.get(`/cupping/delete/` + id).then((data) => {
-						this.load()
-					})
+					this.$api.roast.delete(
+						id,
+						(data) => {
+							this.load()
+						},
+						(e) => {
+							alert(e.message)
+						}
+					)
 				}
 			})
 		}
